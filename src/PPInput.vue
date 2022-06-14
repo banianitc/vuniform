@@ -2,7 +2,7 @@
   <input v-if='type === "hidden"' v-bind='$attrs' :type='type' :value='value' />
 
   <div v-else class='pp-input-wrapper' :class='{"has-error": hasError}'>
-    <div class='pp-input-box'>
+    <div class='pp-input-box' :class='inputBoxClasses'>
       <div class='input-box-wrapper'>
         <div class='pp-label-box'>
           <label :for='uid' class='pp-label'>{{ label }}</label>
@@ -18,6 +18,8 @@
           @input='onInput'
           :placeholder='placeholder'
           ref='inputRef'
+          @focus='onFocus'
+          @blur='onBlur'
         >
         <slot
           name="emptyValue"
@@ -91,4 +93,13 @@ const inputRef = ref(null);
 defineExpose({
   inputRef,
 });
+
+const hasFocus = ref(false)
+const onFocus = () => hasFocus.value = true;
+const onBlur = () => hasFocus.value = false;
+
+const inputBoxClasses = computed(() => ({
+  'has-value': !!value.value,
+  'has-focus': hasFocus.value,
+}));
 </script>

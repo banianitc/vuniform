@@ -104,7 +104,7 @@ const onUpdate = (val: string) => {
 
 formsStore.INIT_FORM_FIELD({formId: formId.value, name: props.inputId, config: {}})
 
-const value = computed(() => formsStore.fieldGetValue(formId.value, props.inputId))
+const value = computed(() => formsStore.fieldGetValue(formId.value, props.inputId) || null)
 const expandLabel = computed(() => !value.value)
 
 const storeErrors = computed(() => {

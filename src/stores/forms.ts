@@ -70,7 +70,7 @@ interface InitFormFieldPayload {
   config: FieldConfiguration;
 }
 
-export const useFormsStore = defineStore('forms', {
+export const useFormsStore = defineStore('vuniform', {
   state: (): FormsState => ({
     forms: {},
   }),
