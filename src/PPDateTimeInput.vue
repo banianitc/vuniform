@@ -121,7 +121,7 @@ const dpOpen = ref(false)
 
 const slots = useSlots();
 
-const showInput = computed(() => !slots.emptyValue || !props.hideEmptyInput);
+const showInput = computed(() => value.value || !slots.emptyValue || !props.hideEmptyInput);
 
 const inputRef = ref(null);
 defineExpose({

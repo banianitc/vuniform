@@ -87,7 +87,7 @@ const hasError = computed(() => props.forceError || allErrors.value.length)
 
 const uid = `pp-input-id-${getCurrentInstance()?.uid}`
 
-const showInput = computed(() => !slots.emptyValue || !props.hideEmptyInput);
+const showInput = computed(() => value.value || !slots.emptyValue || !props.hideEmptyInput);
 
 const inputRef = ref(null);
 defineExpose({
