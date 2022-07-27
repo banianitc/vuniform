@@ -1,6 +1,7 @@
 const path = require('path');
 import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue'
+import vue from '@vitejs/plugin-vue';
+import dts from 'vite-plugin-dts'
 
 export default defineConfig({
   build: {
@@ -25,5 +26,8 @@ export default defineConfig({
       'pinia',
     ]
   },
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    dts(),
+  ],
 });
