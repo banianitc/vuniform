@@ -21,7 +21,7 @@
     "@microsoft/tsdoc-config" "~0.16.1"
     "@rushstack/node-core-library" "3.49.0"
 
-"@microsoft/api-extractor@^7.20.0":
+"@microsoft/api-extractor@^7.19.0", "@microsoft/api-extractor@^7.20.0", "@microsoft/api-extractor@^7.28.6":
   version "7.28.6"
   resolved "https://registry.yarnpkg.com/@microsoft/api-extractor/-/api-extractor-7.28.6.tgz#da88050d37b19edd414d8daf7da890beeff264f2"
   integrity sha512-RNUokJTlBGD0ax/Jo8xLPWv4s6IboqrYrcabEEh6rFadO/tVPoV/R5YHtEeZ2q4ubvwhHTtX3sRm+p4fJo/3Sg==
@@ -1232,6 +1232,13 @@ reusify@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/reusify/-/reusify-1.0.4.tgz#90da382b1e126efc02146e90845a88db12925d76"
   integrity sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==
+
+rollup-plugin-api-extractor@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-api-extractor/-/rollup-plugin-api-extractor-0.2.5.tgz#a88f4ec6d451e727df38af35e570616392582f25"
+  integrity sha512-oWG57yqB6n/xn2egrbiOFjgKjIt/GCwbcdQHaDDM5s26RvwBfckCIokCP3reZCS1OQnINw8NOPcJNarTjef8rA==
+  dependencies:
+    "@microsoft/api-extractor" "^7.19.0"
 
 rollup@^2.59.0:
   version "2.77.0"
