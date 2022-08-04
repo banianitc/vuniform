@@ -25,7 +25,7 @@
     "vue-flatpickr-component": "^9.0.6"
   },
   "peerDependencies": {},
-  "main": "src/forms.ts",
+  "main": "dist/vuniform.umd.js",
   "types": "dist/forms.d.ts",
   "devDependencies": {
     "@microsoft/api-extractor": "^7.28.6",
