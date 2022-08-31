@@ -1,5 +1,5 @@
 import require$$1, { defineComponent, onBeforeMount, watch, onUnmounted, ref, onMounted, provide, openBlock, createElementBlock, renderSlot, createCommentVNode, inject, useSlots, computed, getCurrentInstance, mergeProps, unref, normalizeClass, createElementVNode, toDisplayString, Fragment as Fragment$1, createTextVNode, createBlock, createVNode, cloneVNode, h as h$1, watchEffect, Teleport, reactive, nextTick, toRaw, withCtx, onBeforeUnmount, shallowRef, markRaw, customRef, resolveDynamicComponent, renderList, withModifiers, withDirectives, withKeys, vModelText, Transition, createSlots } from "vue";
-import { defineStore, setActivePinia } from "pinia";
+import { defineStore } from "pinia";
 const useFormsStore = defineStore("vuniform", {
   state: () => ({
     forms: {}
@@ -23469,17 +23469,22 @@ defineComponent({
     };
   }
 });
-const useEditor = (options = {}) => {
-  const editor = shallowRef();
-  onMounted(() => {
-    editor.value = new Editor(options);
-  });
-  onBeforeUnmount(() => {
-    var _a;
-    (_a = editor.value) === null || _a === void 0 ? void 0 : _a.destroy();
-  });
-  return editor;
-};
+defineComponent({
+  props: {
+    as: {
+      type: String,
+      default: "div"
+    }
+  },
+  render() {
+    return h$1(this.as, {
+      style: {
+        whiteSpace: "pre-wrap"
+      },
+      "data-node-view-content": ""
+    });
+  }
+});
 defineComponent({
   props: {
     as: {
@@ -23500,22 +23505,17 @@ defineComponent({
     }, (_b = (_a = this.$slots).default) === null || _b === void 0 ? void 0 : _b.call(_a));
   }
 });
-defineComponent({
-  props: {
-    as: {
-      type: String,
-      default: "div"
-    }
-  },
-  render() {
-    return h$1(this.as, {
-      style: {
-        whiteSpace: "pre-wrap"
-      },
-      "data-node-view-content": ""
-    });
-  }
-});
+const useEditor = (options = {}) => {
+  const editor = shallowRef();
+  onMounted(() => {
+    editor.value = new Editor(options);
+  });
+  onBeforeUnmount(() => {
+    var _a;
+    (_a = editor.value) === null || _a === void 0 ? void 0 : _a.destroy();
+  });
+  return editor;
+};
 const inputRegex$5 = /^\s*>\s$/;
 const Blockquote = Node$1.create({
   name: "blockquote",
@@ -29106,11 +29106,4 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     };
   }
 });
-var forms = {
-  install(app, options = {}) {
-    if (options.pinia) {
-      setActivePinia(options.pinia);
-    }
-  }
-};
-export { _sfc_main$3 as PPCheckbox, _sfc_main$a as PPDateTimeInput, _sfc_main$5 as PPDropdown, _sfc_main$2 as PPError, _sfc_main as PPField, _sfc_main$f as PPForm, _sfc_main$e as PPInput, _sfc_main$4 as PPPasswordInput, _sfc_main$1 as PPRadio, _sfc_main$7 as PPRichText, _sfc_main$6 as PPTokenInput, forms as default, useFormsStore };
+export { _sfc_main$3 as PPCheckbox, _sfc_main$a as PPDateTimeInput, _sfc_main$5 as PPDropdown, _sfc_main$2 as PPError, _sfc_main as PPField, _sfc_main$f as PPForm, _sfc_main$e as PPInput, _sfc_main$4 as PPPasswordInput, _sfc_main$1 as PPRadio, _sfc_main$7 as PPRichText, _sfc_main$6 as PPTokenInput, useFormsStore };

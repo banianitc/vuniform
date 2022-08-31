@@ -11,7 +11,3 @@ import PPRadio from './PPRadio.vue';
 import PPField from './PPField.vue';
 import { useFormsStore, type FormRequest } from './stores/forms';
 export { useFormsStore, FormRequest, PPForm, PPInput, PPDateTimeInput, PPRichText, PPTokenInput, PPDropdown, PPPasswordInput, PPCheckbox, PPError, PPRadio, PPField, };
-declare const _default: {
-    install(app: any, options?: {}): void;
-};
-export default _default;

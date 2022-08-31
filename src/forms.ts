@@ -32,11 +32,3 @@ export {
   PPRadio,
   PPField,
 };
-
-export default {
-  install(app, options = {}) {
-    if (options.pinia) {
-      setActivePinia(options.pinia)
-    }
-  }
-}

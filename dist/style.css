@@ -795,5 +795,5 @@ span.flatpickr-weekday {
 }
 
 .flatpickr-input[data-v-60831119] {
-@apply hidden;
+    display: none
 }

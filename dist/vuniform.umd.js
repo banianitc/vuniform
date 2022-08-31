@@ -23475,17 +23475,22 @@ img.ProseMirror-separator {
       };
     }
   });
-  const useEditor = (options = {}) => {
-    const editor = require$$1.shallowRef();
-    require$$1.onMounted(() => {
-      editor.value = new Editor(options);
-    });
-    require$$1.onBeforeUnmount(() => {
-      var _a;
-      (_a = editor.value) === null || _a === void 0 ? void 0 : _a.destroy();
-    });
-    return editor;
-  };
+  require$$1.defineComponent({
+    props: {
+      as: {
+        type: String,
+        default: "div"
+      }
+    },
+    render() {
+      return require$$1.h(this.as, {
+        style: {
+          whiteSpace: "pre-wrap"
+        },
+        "data-node-view-content": ""
+      });
+    }
+  });
   require$$1.defineComponent({
     props: {
       as: {
@@ -23506,22 +23511,17 @@ img.ProseMirror-separator {
       }, (_b = (_a = this.$slots).default) === null || _b === void 0 ? void 0 : _b.call(_a));
     }
   });
-  require$$1.defineComponent({
-    props: {
-      as: {
-        type: String,
-        default: "div"
-      }
-    },
-    render() {
-      return require$$1.h(this.as, {
-        style: {
-          whiteSpace: "pre-wrap"
-        },
-        "data-node-view-content": ""
-      });
-    }
-  });
+  const useEditor = (options = {}) => {
+    const editor = require$$1.shallowRef();
+    require$$1.onMounted(() => {
+      editor.value = new Editor(options);
+    });
+    require$$1.onBeforeUnmount(() => {
+      var _a;
+      (_a = editor.value) === null || _a === void 0 ? void 0 : _a.destroy();
+    });
+    return editor;
+  };
   const inputRegex$5 = /^\s*>\s$/;
   const Blockquote = Node$1.create({
     name: "blockquote",
@@ -29112,13 +29112,6 @@ img.ProseMirror-separator {
       };
     }
   });
-  var forms = {
-    install(app, options = {}) {
-      if (options.pinia) {
-        pinia.setActivePinia(options.pinia);
-      }
-    }
-  };
   exports2.PPCheckbox = _sfc_main$3;
   exports2.PPDateTimeInput = _sfc_main$a;
   exports2.PPDropdown = _sfc_main$5;
@@ -29130,7 +29123,6 @@ img.ProseMirror-separator {
   exports2.PPRadio = _sfc_main$1;
   exports2.PPRichText = _sfc_main$7;
   exports2.PPTokenInput = _sfc_main$6;
-  exports2["default"] = forms;
   exports2.useFormsStore = useFormsStore;
   Object.defineProperties(exports2, { __esModule: { value: true }, [Symbol.toStringTag]: { value: "Module" } });
 });
