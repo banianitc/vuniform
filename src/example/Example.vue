@@ -1,14 +1,23 @@
 <template>
-  <div class='container mx-auto'>
+  <div class='vnf-container vnf-mx-auto'>
     <h1>Vuniform demo</h1>
 
-    <div class='mx-auto my-8 w-1/3'>
-      <PPForm
+    <div class='vnf-mx-auto vnf-my-8 vnf-w-1/3'>
+      <Form
           :form-id='formId'
           :loading='loading'
           @submit.prevent='noop'
       >
-        <div class='py-2 relative'>
+
+        <div class='vnf-py-2 vnf-z-10'>
+          <Input
+              label='Text input'
+              type='text'
+              input-id='text_input_1'
+          />
+        </div>
+
+        <div class='vnf-py-2 vnf-relative'>
           <PPDropdown
               label='Dropdown list'
               input-id='dropdown_type'
@@ -16,22 +25,14 @@
           />
         </div>
 
-        <div class='py-2 z-10'>
-          <PPInput
-              label='Text input'
-              type='text'
-              input-id='name'
-          />
-        </div>
-
-      </PPForm>
+      </Form>
     </div>
   </div>
 
 </template>
 
 <script setup lang='ts'>
-import { PPForm, PPDropdown, PPInput, useFormsStore } from '@/forms';
+import { Form, PPDropdown, useFormsStore, Input } from '@/forms';
 
 const formsStore = useFormsStore();
 const formId = 'vuniform-demo';

@@ -1,5 +1,5 @@
 <template>
-  <form class='vld-parent pp-form'>
+  <form class='vld-parent vnf-form'>
     <template v-if='mounted'>
       <!--
       <LoadingSpinner
@@ -17,7 +17,7 @@
 import { onBeforeMount, onMounted, onUnmounted, provide, ref, watch } from 'vue';
 // import LoadingSpinner from 'vue-loading-overlay';
 // import themeColors from '@/themeColors.json';
-import { useFormsStore } from './stores/forms';
+import { useFormsStore } from '@/stores/forms';
 
 const formsStore = useFormsStore();
 
@@ -56,7 +56,6 @@ const mounted = ref(false)
 onMounted(() => {
   mounted.value = true
 })
-
 
 provide('formId', props.formId)
 </script>

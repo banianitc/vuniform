@@ -1,57 +1,50 @@
 <template>
   <div class='pp-input-wrapper' :class='{"has-error": hasError}'>
-    <div class='pp-input-box'>
-      <div class='input-box-wrapper'>
-        <Listbox @update:modelValue='onChange'>
-          <div class='pp-label-box' :class='{ minimize: minimizeLabel }'>
-            <ListboxLabel class='pp-label'>{{ label }}</ListboxLabel>
-          </div>
-          <ListboxButton
-              class='pp-input w-full text-left flex flex-row items-center'
-              v-slot='{ open }'
+    <Listbox @update:modelValue='onChange'>
+      <ListboxLabel class='vnf-label'>{{ label }}</ListboxLabel>
+      <ListboxButton
+          class='vnf-input w-full text-left flex flex-row items-center'
+          v-slot='{ open }'
+      >
+        <button
+            v-if='showClearButton'
+            type='button'
+            class='px-1 text-lg'
+            :title='clearText'
+            @click.prevent.stop='onClear'
+        >
+          <Close />
+        </button>
+
+        <div class='flex-1'>
+          {{ displayValue }}
+        </div>
+
+        <div
+            class='px-1 text-2xl transition-transform duration-300'
+            :class='{"-rotate-180": open}'
+        >
+          <ChevronDown />
+        </div>
+      </ListboxButton>
+
+      <transition
+          leave-active-class="transition duration-200 ease-in"
+          leave-from-class="opacity-100"
+          leave-to-class="opacity-0"
+      >
+        <ListboxOptions class='bg-white absolute z-50 w-full top-full shadow-lg'>
+          <ListboxOption
+              v-for='opt in options'
+              :key='opt'
+              :value='opt.value'
+              class='cursor-pointer p-2 hover:bg-gray-100 active:bg-gray-100'
           >
-            <button
-                v-if='showClearButton'
-                type='button'
-                class='px-1 text-lg'
-                title='Počisti'
-                @click.prevent.stop='onClear'
-            >
-              <Close />
-            </button>
-
-            <div class='flex-1'>
-              {{ displayValue }}
-            </div>
-
-            <div
-                class='px-1 text-2xl transition-transform duration-300'
-                :class='{"-rotate-180": open}'
-            >
-              <ChevronDown />
-            </div>
-          </ListboxButton>
-
-          <transition
-              leave-active-class="transition duration-200 ease-in"
-              leave-from-class="opacity-100"
-              leave-to-class="opacity-0"
-          >
-            <ListboxOptions class='bg-white absolute z-50 w-full top-full shadow-lg'>
-              <ListboxOption
-                  v-for='opt in options'
-                  :key='opt'
-                  :value='opt.value'
-                  class='cursor-pointer p-2 hover:bg-gray-100 active:bg-gray-100'
-              >
-                {{ opt.name }}
-              </ListboxOption>
-            </ListboxOptions>
-          </transition>
-        </Listbox>
-      </div>
-      <div class='pp-input-underline' />
-    </div>
+            {{ opt.name }}
+          </ListboxOption>
+        </ListboxOptions>
+      </transition>
+    </Listbox>
     <div class='errors' v-if='hasError'>
       {{ allErrors.join(', ') }}
     </div>
@@ -62,7 +55,7 @@
 import { computed, getCurrentInstance, inject, ref } from 'vue';
 import { Listbox, ListboxButton, ListboxOptions, ListboxOption, ListboxLabel } from '@headlessui/vue'
 import { ChevronDown, Close } from 'mdue';
-import { useFormsStore } from './stores/forms';
+import { useFormsStore } from '../stores/forms';
 
 const formId = inject('formId', '')
 
@@ -79,10 +72,12 @@ interface Props {
   forceError?: boolean;
   multiple?: boolean;
   placeholder?: string;
+  clearText?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
-  options: [],
-  errors: [],
+  clearText: 'Clear',
+  options: () => [],
+  errors: () => [],
 })
 
 const formsStore = useFormsStore()
@@ -125,3 +120,7 @@ const onClear = () => {
   onChange(undefined)
 }
 </script>
+
+<style>
+
+</style>

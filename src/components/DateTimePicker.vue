@@ -86,6 +86,6 @@ const onLocalUpdate = (val: string) => {
 
 <style scoped>
 .flatpickr-input {
-  @apply hidden;
+  /* @apply hidden; */
 }
 </style>

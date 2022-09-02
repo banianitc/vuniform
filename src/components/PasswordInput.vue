@@ -1,5 +1,5 @@
 <template>
-  <PPInput
+  <Input
       :type='type'
       v-bind='$attrs'
   >
@@ -12,11 +12,11 @@
         <ToggleButton class='text-xl' />
       </button>
     </template>
-  </PPInput>
+  </Input>
 </template>
 
 <script setup lang='ts'>
-import PPInput from './PPInput.vue';
+import Input from './Input.vue';
 import { computed, ref } from 'vue';
 import { Eye, EyeOff } from 'mdue';
 
