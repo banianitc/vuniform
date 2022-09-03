@@ -1,13 +1,6 @@
 <template>
-  <form class='vld-parent vnf-form'>
+  <form class='vnf-form'>
     <template v-if='mounted'>
-      <!--
-      <LoadingSpinner
-        :active='loading'
-        :is-full-page='false'
-        :color='themeColors.primary'
-      />
-      -->
       <slot />
     </template>
   </form>

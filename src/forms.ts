@@ -11,6 +11,8 @@ import Field from './components/Field.vue';
 import Input from './components/Input.vue';
 import PasswordInput from './components/PasswordInput.vue';
 
+import StructuredInput from './components/structured/Input.vue';
+
 import {
   useFormsStore,
   type FormRequest
@@ -31,4 +33,6 @@ export {
   Field,
   Input,
   PasswordInput,
+
+  StructuredInput,
 };

@@ -5,6 +5,7 @@
     :updateModelValue='updateModelValue'
     :uid='uid'
     :hasError='hasError'
+    :hasValue='hasValue'
   />
 </template>
 

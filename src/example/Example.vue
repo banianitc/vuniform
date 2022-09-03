@@ -9,19 +9,12 @@
           @submit.prevent='noop'
       >
 
-        <div class='vnf-py-2 vnf-z-10'>
-          <Input
-              label='Text input'
-              type='text'
-              input-id='text_input_1'
-          />
-        </div>
+        <h2 class='vnf-text-lg vnf-mb-8'>Structured</h2>
 
-        <div class='vnf-py-2 vnf-relative'>
-          <PPDropdown
-              label='Dropdown list'
-              input-id='dropdown_type'
-              :options='dropdownOptions'
+        <div class='vnf-py-2'>
+          <StructuredInput
+              label='Structured Input'
+              input-id='text_input_2'
           />
         </div>
 
@@ -32,7 +25,7 @@
 </template>
 
 <script setup lang='ts'>
-import { Form, PPDropdown, useFormsStore, Input } from '@/forms';
+import { Form, useFormsStore, StructuredInput } from '../forms';
 
 const formsStore = useFormsStore();
 const formId = 'vuniform-demo';
