@@ -4,9 +4,7 @@
       ref='fieldRef'
       v-slot='{ uid, value, hasError, errors }'
   >
-    <input v-if='type === "hidden"' v-bind='$attrs' :type='type' :value='value' />
-
-    <div v-else class='vnf-input-wrapper' :class='{"has-error": hasError}'>
+    <div class='vnf-input-wrapper' :class='{"has-error": hasError}'>
       <div class='vnf-input-box' :class='inputBoxClasses'>
         <div class='vnf-input-box-wrapper'>
           <div class='vnf-label-box'>
