@@ -13,8 +13,16 @@
 
         <div class='vnf-py-2'>
           <StructuredInput
-              label='Structured Input'
-              input-id='text_input_2'
+              label='Structured Text Input'
+              input-id='text_input_1'
+          />
+        </div>
+
+        <div class='vnf-py-2'>
+          <StructuredPassword
+              label='Structured Password Input'
+              :showable='true'
+              input-id='password'
           />
         </div>
 
@@ -25,7 +33,7 @@
 </template>
 
 <script setup lang='ts'>
-import { Form, useFormsStore, StructuredInput } from '../forms';
+import { Form, useFormsStore, StructuredInput, StructuredPassword } from '../forms';
 
 const formsStore = useFormsStore();
 const formId = 'vuniform-demo';

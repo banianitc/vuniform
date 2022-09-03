@@ -9,9 +9,9 @@ import PPRadio from './PPRadio.vue';
 import Form from './components/Form.vue';
 import Field from './components/Field.vue';
 import Input from './components/Input.vue';
-import PasswordInput from './components/PasswordInput.vue';
 
 import StructuredInput from './components/structured/Input.vue';
+import StructuredPassword from './components/structured/Password.vue';
 
 import {
   useFormsStore,
@@ -32,7 +32,7 @@ export {
   Form,
   Field,
   Input,
-  PasswordInput,
 
   StructuredInput,
+  StructuredPassword,
 };

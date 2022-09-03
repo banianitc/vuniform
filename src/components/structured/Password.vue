@@ -3,7 +3,7 @@
       :type='type'
       v-bind='$attrs'
   >
-    <template v-if='showable' #inputRight>
+    <template v-if='showable' #inputBoxSuffix>
       <button
           class='input-action-btn'
           type='button'
