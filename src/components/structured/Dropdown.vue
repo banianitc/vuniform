@@ -1,0 +1,81 @@
+<template>
+  <Dropdown
+    v-bind='{...$attrs, ...props}'
+    v-slot='{ uid, value, displayValue, hasValue, hasError, errors, showClearButton, clearText, onChange, onClear, options }'
+  >
+    <div class='vnf-dropdown-input-wrapper vnf-input-wrapper' :class='{"has-error": hasError}'>
+      <Listbox @update:modelValue='onChange' v-slot='{ open }'>
+        <ListboxLabel class='vnf-label'>{{ label }}</ListboxLabel>
+        <ListboxButton
+            class='vnf-dropdown-button'
+        >
+          <button
+              v-if='showClearButton'
+              type='button'
+              class='vnf-dropdown-clear-btn'
+              :title='clearText'
+              @click.prevent.stop='onClear'
+          >
+            <Close />
+          </button>
+
+          <div class='vnf-dropdown-value'>
+            {{ displayValue }}
+          </div>
+
+          <div
+              class='vnf-dropdown-arrow'
+              :class='{ open }'
+          >
+            <ChevronDown />
+          </div>
+        </ListboxButton>
+
+        <transition name='vnf-fade'>
+          <ListboxOptions class='bg-white absolute z-50 w-full top-full shadow-lg'>
+            <ListboxOption
+                v-for='opt in options'
+                :key='opt'
+                :value='opt.value'
+                class='cursor-pointer p-2 hover:bg-gray-100 active:bg-gray-100'
+            >
+              {{ opt.name }}
+            </ListboxOption>
+          </ListboxOptions>
+        </transition>
+      </Listbox>
+      <slot name='inputErrors' v-if='hasError' :errors='errors'>
+        <div class='vnf-input-errors' >
+          {{ errors.join(', ') }}
+        </div>
+      </slot>
+    </div>
+  </Dropdown>
+</template>
+
+<script lang='ts' setup>
+import { Listbox, ListboxButton, ListboxOptions, ListboxOption, ListboxLabel } from '@headlessui/vue'
+import { ChevronDown, Close } from 'mdue';
+import Dropdown from '../Dropdown.vue';
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', value?: unknown | unknown[]): void
+}>()
+interface Props {
+  label: string;
+  inputId: string;
+  options: {value: string, name: string}[];
+  defaultValue?: string;
+  clearable?: boolean;
+  errors?: string[];
+  forceError?: boolean;
+  multiple?: boolean;
+  placeholder?: string;
+  clearText?: string;
+}
+const props = withDefaults(defineProps<Props>(), {
+  clearText: 'Clear',
+  options: () => [],
+  errors: () => [],
+})
+</script>

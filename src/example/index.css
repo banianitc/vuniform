@@ -5,3 +5,39 @@
 .vnf-input {
   @apply vnf-border-b-2 vnf-border-solid;
 }
+
+.vnf-dropdown-button {
+  @apply vnf-w-full vnf-text-left vnf-flex vnf-flex-row vnf-items-center;
+
+  & .vnf-dropdown-clear-btn {
+    @apply vnf-px-1 vnf-text-lg;
+  }
+
+  & .vnf-dropdown-value {
+    @apply vnf-flex-1;
+  }
+
+  & .vnf-dropdown-arrow {
+    @apply vnf-px-1 vnf-text-2xl vnf-transition-transform vnf-duration-300;
+
+    &.open {
+      @apply -vnf-rotate-180;
+    }
+  }
+}
+
+.vnf-fade- {
+  &enter-active,
+  &leave-active {
+    @apply vnf-transition vnf-duration-200 vnf-ease-in;
+  }
+
+  &leave-from {
+    @apply vnf-opacity-100;
+  }
+
+  &enter-from,
+  &leave-to {
+    @apply vnf-opacity-0;
+  }
+}

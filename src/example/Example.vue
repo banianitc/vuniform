@@ -26,6 +26,17 @@
           />
         </div>
 
+
+        <hr>
+
+        <div class='vnf-py-2'>
+          <Dropdown
+              label='Dropdown'
+              :input-id='dropdown'
+              :options='dropdownOptions'
+          />
+        </div>
+
       </Form>
     </div>
   </div>
@@ -34,6 +45,7 @@
 
 <script setup lang='ts'>
 import { Form, useFormsStore, StructuredInput, StructuredPassword } from '../forms';
+import Dropdown from '../components/structured/Dropdown.vue';
 
 const formsStore = useFormsStore();
 const formId = 'vuniform-demo';

@@ -52,5 +52,6 @@ defineExpose({
   updateModelValue,
   hasValue,
   storeErrors,
+  value: internalValue,
 })
 </script>
