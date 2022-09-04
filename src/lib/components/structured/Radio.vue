@@ -11,22 +11,26 @@
         <div class='divide-y divide-solid'>
           <RadioGroupOption
               v-for='opt in options'
+              as='template'
               :key='opt'
-              class='vnf-input-radio-option'
-              :class='{active, checked}'
               :value='opt.value'
               v-slot='{ active, checked }'
           >
-            <span class='vnf-radio-check'>
-              <RadioboxMarked v-if='checked' />
-              <RadioboxBlank v-else />
-            </span>
+            <div
+                class='vnf-input-radio-option'
+                :class='{active, checked}'
+            >
+              <span class='vnf-radio-check'>
+                <RadioboxMarked v-if='checked' />
+                <RadioboxBlank v-else />
+              </span>
 
-            <span class='vnf-radio-label'>
-              <RadioGroupLabel class='label'>
-                {{ opt.name }}
-              </RadioGroupLabel>
-            </span>
+              <span class='vnf-radio-label'>
+                <RadioGroupLabel class='label'>
+                  {{ opt.name }}
+                </RadioGroupLabel>
+              </span>
+            </div>
           </RadioGroupOption>
         </div>
       </RadioGroup>

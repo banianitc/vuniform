@@ -1,7 +1,7 @@
 <template>
   <Dropdown
-    v-bind='{...$attrs, ...props}'
-    v-slot='{ uid, value, displayValue, hasValue, hasError, errors, showClearButton, clearText, onChange, onClear, options }'
+      v-bind='{ inputId, overrideValue, errors, forceError }'
+      v-slot='{ uid, value, displayValue, hasValue, hasError, errors, showClearButton, clearText, onChange, onClear, options }'
   >
     <div class='vnf-dropdown-input-wrapper vnf-input-wrapper' :class='{"has-error": hasError}'>
       <Listbox @update:modelValue='onChange' v-slot='{ open }'>
@@ -72,6 +72,7 @@ interface Props {
   multiple?: boolean;
   placeholder?: string;
   clearText?: string;
+  overrideValue?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
   clearText: 'Clear',

@@ -1,6 +1,6 @@
 <template>
   <Field
-      v-bind='props'
+      v-bind='{ inputId, overrideValue, errors, forceError }'
       ref='fieldRef'
       v-slot='{ uid, value, hasValue, hasError, errors, inputId }'
   >
@@ -15,14 +15,13 @@
         <div
             class='vnf-input-box-wrapper'
             ref="inputRef"
-            @click='onDatepickerClick'
         >
-          <div class='vnf-label-box' :class='{minimize: !!value, expand: !hasValue}'>
+          <div class='vnf-label-box' :class='{minimize: !!value, expand: !hasValue}' @click='onDatepickerClick'>
             <label :for='uid' class='vnf-label'>{{ label }}</label>
           </div>
 
           <div class='vnf-input'>
-            <span>
+            <span @click='onDatepickerClick'>
               <template v-if='value'>
                 <DTFormat
                     :datetime='value'
@@ -36,11 +35,13 @@
                 </template>
               </template>
               <template v-else>
-                &nbsp;
+                &nbsp;&nbsp;
               </template>
             </span>
 
-            <slot name='inputSuffix' class='vnf-input-suffix' />
+            <div v-if='$slots.inputSuffix' class='vnf-input-suffix'>
+              <slot name='inputSuffix' />
+            </div>
           </div>
         </div>
 
@@ -89,6 +90,7 @@ interface Props {
   hideTimePicker?: boolean;
   autoSelect?: boolean;
   hideEmptyInput?: boolean;
+  overrideValue?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
   errors: () => [],

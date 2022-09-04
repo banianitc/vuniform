@@ -1,6 +1,6 @@
 <template>
   <Field
-      v-bind='props'
+      v-bind='{ inputId, overrideValue, errors, forceError }'
       ref='fieldRef'
       v-slot='{ uid, value, hasValue, hasError, errors, inputId }'
   >
@@ -10,7 +10,6 @@
             v-for='opt in options'
             :key='opt'
             :value='opt.value'
-            v-slot='{ active, checked }'
         >
           <input type='radio' :name='inputId' :value='opt.value' :checked='value === opt.value' />
           <RadioGroupLabel class='label'>
@@ -39,6 +38,7 @@ interface Props {
   defaultValue?: string;
   errors?: string[];
   forceError?: boolean;
+  overrideValue?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
   options: () => [],

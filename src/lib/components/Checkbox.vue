@@ -1,6 +1,6 @@
 <template>
   <Field
-      v-bind='props'
+      v-bind='{ inputId, overrideValue, errors, forceError }'
       ref='fieldRef'
       v-slot='{ uid, value, hasValue, hasError, errors }'
   >
@@ -27,6 +27,7 @@ interface Props {
   forceError?: boolean;
   trueValue?: unknown;
   falseValue?: unknown;
+  overrideValue?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
   errors: () => [],

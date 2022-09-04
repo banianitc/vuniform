@@ -21,7 +21,7 @@ const uid = `vnf-field-id-${getCurrentInstance()?.uid}`
 
 interface Props {
   inputId: string;
-  modelValue: any;
+  modelValue?: any;
   overrideValue?: string;
   errors?: string[];
   forceError?: boolean;

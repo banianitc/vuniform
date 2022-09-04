@@ -1,6 +1,6 @@
 <template>
   <Field
-      v-bind='props'
+      v-bind='{ inputId, overrideValue, errors, forceError }'
       ref='fieldRef'
       v-slot='{ uid, value, hasValue, hasError, errors }'
   >
@@ -56,9 +56,8 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value?: unknown | unknown[]): void
 }>()
 interface Props {
-  label: string;
   inputId: string;
-  options: {value: string, name: string}[];
+  options?: {value: string, name: string}[];
   defaultValue?: string;
   clearable?: boolean;
   errors?: string[];
@@ -66,6 +65,7 @@ interface Props {
   multiple?: boolean;
   placeholder?: string;
   clearText?: string;
+  overrideValue?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
   clearText: 'Clear',

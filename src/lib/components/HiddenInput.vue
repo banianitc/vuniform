@@ -16,7 +16,6 @@ const formId = inject('formId', '')
 const fieldRef = ref(null);
 
 interface Props {
-  label: string;
   inputId: string;
   errors?: string[];
   forceError?: boolean;
