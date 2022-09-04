@@ -32,12 +32,12 @@
         </ListboxButton>
 
         <transition name='vnf-fade'>
-          <ListboxOptions class='bg-white absolute z-50 w-full top-full shadow-lg'>
+          <ListboxOptions class='vnf-dropdown-options'>
             <ListboxOption
                 v-for='opt in options'
                 :key='opt'
                 :value='opt.value'
-                class='cursor-pointer p-2 hover:bg-gray-100 active:bg-gray-100'
+                class='vnf-dropdown-option'
             >
               {{ opt.name }}
             </ListboxOption>

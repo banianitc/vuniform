@@ -24,6 +24,14 @@
       @apply -vnf-rotate-180;
     }
   }
+
+  & .vnf-dropdown-options {
+    @apply vnf-bg-white vnf-absolute vnf-z-50 vnf-w-full vnf-top-full vnf-shadow-lg;
+
+    & .vnf-dropdown-option {
+      @apply vnf-cursor-pointer vnf-p-2 hover:vnf-bg-gray-100 active:vnf-bg-gray-100;
+    }
+  }
 }
 
 .vnf-fade- {
