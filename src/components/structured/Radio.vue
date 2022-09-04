@@ -18,8 +18,8 @@
               v-slot='{ active, checked }'
           >
             <span class='vnf-radio-check'>
-              <CheckCircle v-if='checked' />
-              <CheckboxBlankCircleOutline v-else />
+              <RadioboxMarked v-if='checked' />
+              <RadioboxBlank v-else />
             </span>
 
             <span class='vnf-radio-label'>
@@ -43,7 +43,7 @@
 <script lang='ts' setup>
 import { inject } from 'vue';
 import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue';
-import { CheckCircle, CheckboxBlankCircleOutline } from 'mdue';
+import { RadioboxBlank, RadioboxMarked } from 'mdue';
 import Radio from '../Radio.vue';
 
 const formId = inject('formId', '')

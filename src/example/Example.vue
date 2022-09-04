@@ -59,6 +59,13 @@
           />
         </div>
 
+        <div class='vnf-py-2'>
+          <Textarea
+              label='Text area'
+              input-id='textarea'
+          />
+        </div>
+
       </Form>
     </div>
   </div>
@@ -71,6 +78,7 @@ import Dropdown from '../components/structured/Dropdown.vue';
 import Checkbox from '../components/structured/Checkbox.vue';
 import Radio from '../components/structured/Radio.vue';
 import TokenInput from '../components/structured/TokenInput.vue';
+import Textarea from '../components/structured/Textarea.vue';
 
 const formsStore = useFormsStore();
 const formId = 'vuniform-demo';

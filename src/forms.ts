@@ -4,6 +4,7 @@ import PPRichText from './PPRichText.vue';
 import Form from './components/Form.vue';
 import Field from './components/Field.vue';
 import Input from './components/Input.vue';
+import Textarea from './components/Textarea.vue';
 import Dropdown from './components/Dropdown.vue';
 import Checkbox from './components/Checkbox.vue';
 import Radio from './components/Radio.vue';
@@ -11,6 +12,7 @@ import TokenInput from './components/TokenInput.vue';
 import Error from './components/Error.vue';
 
 import StructuredInput from './components/structured/Input.vue';
+import StructuredTextarea from './components/structured/Textarea.vue';
 import StructuredPassword from './components/structured/Password.vue';
 import StructuredDropdown from './components/structured/Dropdown.vue';
 import StructuredCheckbox from './components/structured/Checkbox.vue';
@@ -31,6 +33,7 @@ export {
   Form,
   Field,
   Input,
+  Textarea,
   Dropdown,
   Checkbox,
   Radio,
@@ -43,4 +46,5 @@ export {
   StructuredCheckbox,
   StructuredRadio,
   StructuredTokenInput,
+  StructuredTextarea,
 };
