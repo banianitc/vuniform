@@ -1,6 +1,6 @@
 <template>
   <Dropdown
-      v-bind='{ inputId, overrideValue, errors, forceError }'
+      v-bind='{ inputId, overrideValue, errors, forceError, options }'
       v-slot='{ uid, value, displayValue, hasValue, hasError, errors, showClearButton, clearText, onChange, onClear, options }'
   >
     <div class='vnf-dropdown-input-wrapper vnf-input-wrapper' :class='{"has-error": hasError}'>
