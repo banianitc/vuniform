@@ -77,7 +77,20 @@
           <DateTimeInput
               label='Date and time'
               input-id='datetime'
-          />
+          >
+            <template #dateTimePicker='{ value, showDateTimePicker, hideTimePicker, uid, autoSelect, onUpdate, onClose }'>
+              <DateTimePicker
+                  class='vnf-min-h-4'
+                  :model-value='value'
+                  :show='showDateTimePicker'
+                  :disable-time-section='hideTimePicker'
+                  :el-id='uid'
+                  :auto-select='autoSelect'
+                  @update:modelValue='onUpdate'
+                  @close='onClose'
+              />
+            </template>
+          </DateTimeInput>
         </div>
 
       </Form>
@@ -87,14 +100,15 @@
 </template>
 
 <script setup lang='ts'>
-import { Form, useFormsStore, StructuredInput, StructuredPassword } from '../forms';
-import Dropdown from '../components/structured/Dropdown.vue';
-import Checkbox from '../components/structured/Checkbox.vue';
-import Radio from '../components/structured/Radio.vue';
-import TokenInput from '../components/structured/TokenInput.vue';
-import Textarea from '../components/structured/Textarea.vue';
-import { StructuredRichText } from '../forms';
-import { DateTimeInput } from '../forms';
+import { Form, useFormsStore, StructuredInput, StructuredPassword } from '../lib/forms';
+import Dropdown from '../lib/components/structured/Dropdown.vue';
+import Checkbox from '../lib/components/structured/Checkbox.vue';
+import Radio from '../lib/components/structured/Radio.vue';
+import TokenInput from '../lib/components/structured/TokenInput.vue';
+import Textarea from '../lib/components/structured/Textarea.vue';
+import { StructuredRichText } from '../lib/forms';
+import { DateTimeInput } from '../lib/forms';
+import DateTimePicker from '../components/DateTimePicker.vue';
 
 const formsStore = useFormsStore();
 const formId = 'vuniform-demo';

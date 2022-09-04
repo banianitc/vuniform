@@ -37,17 +37,6 @@
             <template v-else>
               &nbsp;
             </template>
-
-            <DateTimePicker
-                class='min-h-4'
-                :model-value='value'
-                :show='showDateTimePicker'
-                :disable-time-section='hideTimePicker'
-                :el-id='uid'
-                :auto-select='autoSelect'
-                @update:modelValue='onUpdate'
-                @close='closeDateTimePicker'
-            />
           </div>
         </div>
 
@@ -61,15 +50,19 @@
         </div>
       </slot>
     </div>
+
+    <slot
+        name='dateTimePicker'
+        v-bind='{ value, showDateTimePicker, hideTimePicker, uid, autoSelect, onUpdate, onClose }'
+    />
   </Field>
 </template>
 
 <script setup lang='ts' >
 import { ref } from 'vue';
 import { DateTime } from 'luxon';
-import DTFormat from './DTFormat.vue';
-import * as DateFormats from '../util/date_format';
-import DateTimePicker from './DateTimePicker.vue';
+import DTFormat from '../../components/DTFormat.vue';
+import * as DateFormats from '../../util/date_format';
 import { Field } from '../forms';
 
 // TODO: Write custom picker
@@ -77,7 +70,7 @@ import { Field } from '../forms';
 const fieldRef = ref(null);
 
 const showDateTimePicker = ref(false)
-const closeDateTimePicker = () => showDateTimePicker.value = false
+const onClose = () => showDateTimePicker.value = false
 const onDatepickerClick = () => showDateTimePicker.value = true
 
 const emit = defineEmits<{
@@ -102,7 +95,7 @@ const onUpdate = (val: string) => {
   const storeValue = props.hideTimePicker ? value.toISODate() : value.toISO()
 
   emit('update:modelValue', storeValue);
-  closeDateTimePicker();
+  onClose();
   if (fieldRef.value?.updateModelValue) {
     fieldRef.value.updateModelValue(value);
   }

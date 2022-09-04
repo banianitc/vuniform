@@ -7,7 +7,7 @@ export default defineConfig({
   build: {
     minify: false,
     lib: {
-      entry: './src/forms.ts',
+      entry: './src/lib/forms.ts',
       name: 'vuniform',
     },
     rollupOptions: {
@@ -19,7 +19,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(__dirname, './src/lib'),
     },
     dedupe: [
       'vue',

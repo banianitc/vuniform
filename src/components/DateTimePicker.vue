@@ -1,5 +1,5 @@
 <template>
-  <PPModal
+  <Modal
       :show='show'
       @close='onClose'
   >
@@ -30,12 +30,12 @@
         </div>
       </div>
     </template>
-  </PPModal>
+  </Modal>
 </template>
 
 <script setup lang='ts'>
 import { computed, ref } from 'vue';
-import PPModal from './PPModal.vue';
+import Modal from './Modal.vue';
 // @ts-ignore-next-line
 import FlatPickr from 'vue-flatpickr-component';
 import 'flatpickr/dist/flatpickr.css';
