@@ -66,6 +66,13 @@
           />
         </div>
 
+        <div class='vnf-py-2'>
+          <StructuredRichText
+              label='Rich Text area'
+              input-id='richtext'
+          />
+        </div>
+
       </Form>
     </div>
   </div>
@@ -79,6 +86,7 @@ import Checkbox from '../components/structured/Checkbox.vue';
 import Radio from '../components/structured/Radio.vue';
 import TokenInput from '../components/structured/TokenInput.vue';
 import Textarea from '../components/structured/Textarea.vue';
+import { StructuredRichText } from '../forms';
 
 const formsStore = useFormsStore();
 const formId = 'vuniform-demo';

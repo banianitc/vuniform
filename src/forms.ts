@@ -1,5 +1,4 @@
 import PPDateTimeInput from './PPDateTimeInput.vue';
-import PPRichText from './PPRichText.vue';
 
 import Form from './components/Form.vue';
 import Field from './components/Field.vue';
@@ -13,6 +12,7 @@ import Error from './components/Error.vue';
 
 import StructuredInput from './components/structured/Input.vue';
 import StructuredTextarea from './components/structured/Textarea.vue';
+import StructuredRichText from './components/structured/RichText.vue';
 import StructuredPassword from './components/structured/Password.vue';
 import StructuredDropdown from './components/structured/Dropdown.vue';
 import StructuredCheckbox from './components/structured/Checkbox.vue';
@@ -28,7 +28,6 @@ export {
   useFormsStore,
   FormRequest,
   PPDateTimeInput,
-  PPRichText,
 
   Form,
   Field,
@@ -47,4 +46,5 @@ export {
   StructuredRadio,
   StructuredTokenInput,
   StructuredTextarea,
+  StructuredRichText,
 };
