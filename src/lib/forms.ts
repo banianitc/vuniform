@@ -1,5 +1,6 @@
 import Form from './components/Form.vue';
 import Field from './components/Field.vue';
+import HiddenInput from './components/HiddenInput.vue';
 import Input from './components/Input.vue';
 import Textarea from './components/Textarea.vue';
 import Dropdown from './components/Dropdown.vue';
@@ -29,6 +30,7 @@ export {
 
   Form,
   Field,
+  HiddenInput,
   Input,
   Textarea,
   Dropdown,

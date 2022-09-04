@@ -12,7 +12,7 @@
 
 <script setup lang='ts'>
 import { computed, inject, onBeforeMount, getCurrentInstance, watch } from 'vue';
-import { useFormsStore } from '@/stores/forms';
+import { useFormsStore } from '../stores/forms';
 
 const formsStore = useFormsStore()
 

@@ -93,6 +93,10 @@
           </DateTimeInput>
         </div>
 
+        <div class='vnf-py-2'>
+          <p>Hidden input</p>
+          <HiddenInput input-id='hidden' />
+        </div>
       </Form>
     </div>
   </div>
@@ -107,7 +111,7 @@ import Radio from '../lib/components/structured/Radio.vue';
 import TokenInput from '../lib/components/structured/TokenInput.vue';
 import Textarea from '../lib/components/structured/Textarea.vue';
 import { StructuredRichText } from '../lib/forms';
-import { DateTimeInput } from '../lib/forms';
+import { DateTimeInput, HiddenInput } from '../lib/forms';
 import DateTimePicker from '../components/DateTimePicker.vue';
 
 const formsStore = useFormsStore();

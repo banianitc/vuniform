@@ -22,21 +22,25 @@
           </div>
 
           <div class='vnf-input'>
-            <template v-if='value'>
-              <DTFormat
-                  :datetime='value'
-                  :format='DateFormats.DATE_MED'
-              />
-              <template v-if='!hideTimePicker'>&nbsp;
+            <span>
+              <template v-if='value'>
                 <DTFormat
                     :datetime='value'
-                    :format='DateTime.TIME_24_SIMPLE'
+                    :format='DateFormats.DATE_MED'
                 />
+                <template v-if='!hideTimePicker'>&nbsp;
+                  <DTFormat
+                      :datetime='value'
+                      :format='DateTime.TIME_24_SIMPLE'
+                  />
+                </template>
               </template>
-            </template>
-            <template v-else>
-              &nbsp;
-            </template>
+              <template v-else>
+                &nbsp;
+              </template>
+            </span>
+
+            <slot name='inputSuffix' class='vnf-input-suffix' />
           </div>
         </div>
 
