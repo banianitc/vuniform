@@ -1,17 +1,17 @@
 <template>
-  <div class='pp-input-wrapper' :class='{"has-error": hasError}'>
-    <div class='pp-input-box'>
+  <Field
+      v-bind='props'
+      ref='fieldRef'
+      v-slot='{ uid, value, hasValue, hasError, errors }'
+  >
+    <slot v-bind='{ uid, value, inputValue, hasValue, hasError, errors, tokens, selectedTokenIdx, selectToken, removeToken, tryAddToken, selectPrevious, onInput, onLeft, onRight, onInputBlur, onDelete, onFocus }'>
       <div
-        class='input-box-wrapper pp-token-input'
+        class='vnf-token-input input-box-wrapper'
       >
-        <div class='pp-label-box' :class='{ minimize: minimizeLabel }'>
-          <label :for='uid' class='pp-label'>{{ label }}</label>
-        </div>
-
         <span
             v-for='(token, idx) in tokens'
             :key='token'
-            class='pp-token'
+            class='vnf-token'
             :class='{selected: idx === selectedTokenIdx }'
             @click.prevent.stop='selectToken(idx)'
         >
@@ -31,36 +31,25 @@
           v-bind='$attrs'
           type='text'
           :id='uid'
-          class='pp-input'
+          class='vnf-input'
           placeholder=' '
           @keydown.tab.enter.exact.stop='tryAddToken'
-          @keydown.shift.tab.exact.stop.prevent='selectLeft'
+          @keydown.shift.tab.exact.stop.prevent='selectPrevious'
           @keydown.delete='onDelete'
           @keydown.left.stop.capture='onLeft'
           @keydown.right.stop.capture='onRight'
-          @focus='() => selectedTokenIdx = -1'
+          @focus='onFocus'
           @blur='onInputBlur'
         >
       </div>
-
-      <div>
-        <slot name='inputRight' />
-      </div>
-
-      <div class='pp-input-underline' />
-    </div>
-    <div class='errors' v-if='hasError'>
-      {{ allErrors.join(', ') }}
-    </div>
-  </div>
+    </slot>
+  </Field>
 </template>
 
 <script lang='ts' setup>
 import { CloseCircle } from 'mdue';
-import { computed, getCurrentInstance, inject, nextTick, ref, watch } from 'vue';
-import { useFormsStore } from './stores/forms';
-
-const formId = inject('formId', '')
+import { computed, nextTick, ref, watch } from 'vue';
+import Field from './Field.vue';
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string[]): void
@@ -75,37 +64,25 @@ interface Props {
   separator?: string[];
 }
 const props = withDefaults(defineProps<Props>(), {
-  type: 'text',
-  errors: [],
-  separator: [],
+  errors: () => [],
+  separator: () => [],
 })
 
 const onChange = (newVal: string[]) => {
-  formsStore.STAGE_FIELD_CHANGE({value: newVal, query: {formId, field: props.inputId}})
   emit('update:modelValue', newVal)
+  if (fieldRef.value?.updateModelValue) {
+    fieldRef.value.updateModelValue(newVal);
+  }
 }
 
 const inputValue = ref('')
 const valueInput = ref(null)
+const fieldRef = ref(null);
 const selectedTokenIdx = ref(-1)
 
-const formsStore = useFormsStore()
-
-if (formId) {
-  formsStore.INIT_FORM_FIELD({formId, name: props.inputId, config: {}})
-}
-
-const value = computed((): string[] => <string[]>(formsStore.fieldGetValue(formId, props.inputId) || []))
-
-const storeErrors = computed(() => formsStore.fieldGetErrors(formId, props.inputId) || [])
-const allErrors = computed(() => storeErrors.value.concat(props.errors))
-
-const hasError = computed(() => props.forceError || allErrors.value.length)
-
-const uid = `pp-input-id-${getCurrentInstance()?.uid}`
+const value = computed((): string[] => <string[]>(fieldRef.value?.value || []))
 
 const tokens = computed(() => value.value)
-const minimizeLabel = computed(() => tokens.value.length > 0)
 
 const tryAddToken = (e?: KeyboardEvent) => {
   if (e && (selectedTokenIdx.value != -1 || inputValue.value.length)) {
@@ -118,7 +95,7 @@ const tryAddToken = (e?: KeyboardEvent) => {
       return
     }
 
-    selectRight()
+    selectNext()
     return;
   }
 
@@ -180,7 +157,7 @@ const removeToken = (idx: number) => {
   onChange(newTokens)
 }
 
-const selectLeft = () => {
+const selectPrevious = () => {
   if (tokens.value.length == 0) {
     return
   }
@@ -194,7 +171,7 @@ const selectLeft = () => {
   selectedTokenIdx.value--
 }
 
-const selectRight = () => {
+const selectNext = () => {
   if (selectedTokenIdx.value == -1) {
     return
   }
@@ -209,7 +186,7 @@ const selectRight = () => {
 
 const onLeft = (e: KeyboardEvent) => {
   if (selectedTokenIdx.value != -1) {
-    selectLeft()
+    selectPrevious()
     e.preventDefault()
     return
   }
@@ -222,12 +199,12 @@ const onLeft = (e: KeyboardEvent) => {
   }
   e.preventDefault()
 
-  selectLeft()
+  selectPrevious()
 }
 
 const onRight = (e: KeyboardEvent) => {
   if (selectedTokenIdx.value != -1) {
-    selectRight()
+    selectNext()
     e.preventDefault()
     return
   }
@@ -250,4 +227,17 @@ const editSelectedToken = async () => {
   await nextTick()
   valueInput.value!.select()
 }
+
+const onInput = (input) => {
+  inputValue.value = input?.target.value || ''
+}
+
+const onFocus = () => {
+  selectedTokenIdx.value = -1
+}
+
+defineExpose({
+  tokens,
+  onChange,
+})
 </script>

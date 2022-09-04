@@ -44,6 +44,14 @@
           />
         </div>
 
+
+        <div class='vnf-py-2'>
+          <TokenInput
+              label='Token input'
+              input-id='token_input'
+          />
+        </div>
+
       </Form>
     </div>
   </div>
@@ -54,6 +62,7 @@
 import { Form, useFormsStore, StructuredInput, StructuredPassword } from '../forms';
 import Dropdown from '../components/structured/Dropdown.vue';
 import Checkbox from '../components/structured/Checkbox.vue';
+import TokenInput from '../components/structured/TokenInput.vue';
 
 const formsStore = useFormsStore();
 const formId = 'vuniform-demo';
