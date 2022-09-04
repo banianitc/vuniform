@@ -41,3 +41,13 @@
     @apply vnf-opacity-0;
   }
 }
+
+.vnf-checkbox {
+  & .vnf-input-box {
+    @apply vnf-flex vnf-flex-row vnf-items-center vnf-cursor-pointer;
+
+    & .vnf-checkbox-icon {
+      @apply vnf-text-2xl;
+    }
+  }
+}

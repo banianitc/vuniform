@@ -32,8 +32,15 @@
         <div class='vnf-py-2'>
           <Dropdown
               label='Dropdown'
-              :input-id='dropdown'
+              input-id='dropdown'
               :options='dropdownOptions'
+          />
+        </div>
+
+        <div class='vnf-py-2'>
+          <Checkbox
+              label='checkbox'
+              input-id='checkbox'
           />
         </div>
 
@@ -46,6 +53,7 @@
 <script setup lang='ts'>
 import { Form, useFormsStore, StructuredInput, StructuredPassword } from '../forms';
 import Dropdown from '../components/structured/Dropdown.vue';
+import Checkbox from '../components/structured/Checkbox.vue';
 
 const formsStore = useFormsStore();
 const formId = 'vuniform-demo';
