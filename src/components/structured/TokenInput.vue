@@ -52,8 +52,6 @@
         <div>
           <slot name='inputRight' />
         </div>
-
-        <div class='pp-input-underline' />
       </div>
       <slot name='inputErrors' v-if='hasError' :errors='errors'>
         <div class='vnf-input-errors' >

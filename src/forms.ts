@@ -1,5 +1,3 @@
-import PPDateTimeInput from './PPDateTimeInput.vue';
-
 import Form from './components/Form.vue';
 import Field from './components/Field.vue';
 import Input from './components/Input.vue';
@@ -8,6 +6,7 @@ import Dropdown from './components/Dropdown.vue';
 import Checkbox from './components/Checkbox.vue';
 import Radio from './components/Radio.vue';
 import TokenInput from './components/TokenInput.vue';
+import DateTimeInput from './components/DateTimeInput.vue';
 import Error from './components/Error.vue';
 
 import StructuredInput from './components/structured/Input.vue';
@@ -27,7 +26,6 @@ import {
 export {
   useFormsStore,
   FormRequest,
-  PPDateTimeInput,
 
   Form,
   Field,
@@ -38,6 +36,7 @@ export {
   Radio,
   TokenInput,
   Error,
+  DateTimeInput,
 
   StructuredInput,
   StructuredPassword,

@@ -73,6 +73,13 @@
           />
         </div>
 
+        <div class='vnf-py-2'>
+          <DateTimeInput
+              label='Date and time'
+              input-id='datetime'
+          />
+        </div>
+
       </Form>
     </div>
   </div>
@@ -87,6 +94,7 @@ import Radio from '../components/structured/Radio.vue';
 import TokenInput from '../components/structured/TokenInput.vue';
 import Textarea from '../components/structured/Textarea.vue';
 import { StructuredRichText } from '../forms';
+import { DateTimeInput } from '../forms';
 
 const formsStore = useFormsStore();
 const formId = 'vuniform-demo';

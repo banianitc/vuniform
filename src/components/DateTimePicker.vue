@@ -4,7 +4,7 @@
       @close='onClose'
   >
     <template #content>
-      <div class='flex flex-col items-center'>
+      <div class='vnf-flex vnf-flex-col vnf-items-center'>
         <FlatPickr
             :model-value='modelValue'
             :config='pickerConfig'
@@ -14,7 +14,7 @@
         <div v-if='!autoSelect' class='mt-4'>
           <button
               type='button'
-              class='mx-2 btn secondary'
+              class='vnf-mx-2 vnf-btn vnf-secondary'
               @click='onClose'
           >
             {{ cancelText }}
@@ -22,7 +22,7 @@
 
           <button
               type='button'
-              class='mx-2 btn primary'
+              class='vnf-mx-2 vnf-btn vnf-primary'
               @click='onSubmit'
           >
             {{ confirmText }}
@@ -86,6 +86,6 @@ const onLocalUpdate = (val: string) => {
 
 <style scoped>
 .flatpickr-input {
-  /* @apply hidden; */
+  @apply vnf-hidden;
 }
 </style>
