@@ -6,6 +6,7 @@
     :uid='uid'
     :hasError='hasError'
     :hasValue='hasValue'
+    :inputId='inputId'
   />
 </template>
 

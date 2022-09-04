@@ -51,3 +51,20 @@
     }
   }
 }
+
+.vnf-input-radio {
+  & .vnf-input-radio-option {
+    @apply vnf-flex vnf-flex-row vnf-items-center vnf-cursor-pointer ;
+
+    & .vnf-radio-check {
+      @apply vnf-text-xl vnf-text-gray-400;
+    }
+
+    & .vnf-radio-label {
+      @apply vnf-p-2;
+      & .label {
+        @apply vnf-cursor-pointer;
+      }
+    }
+  }
+}

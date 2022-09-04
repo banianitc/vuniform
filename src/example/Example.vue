@@ -44,6 +44,13 @@
           />
         </div>
 
+        <div class='vnf-py-2'>
+          <Radio
+              label='Radio'
+              input-id='radio'
+              :options='radioOptions'
+          />
+        </div>
 
         <div class='vnf-py-2'>
           <TokenInput
@@ -62,6 +69,7 @@
 import { Form, useFormsStore, StructuredInput, StructuredPassword } from '../forms';
 import Dropdown from '../components/structured/Dropdown.vue';
 import Checkbox from '../components/structured/Checkbox.vue';
+import Radio from '../components/structured/Radio.vue';
 import TokenInput from '../components/structured/TokenInput.vue';
 
 const formsStore = useFormsStore();
@@ -71,6 +79,11 @@ const loading = false;
 const noop = () => null;
 
 const dropdownOptions = [
+  { name: 'Option 1', value: 'opt_1' },
+  { name: 'Option 2', value: 'opt_2' },
+]
+
+const radioOptions = [
   { name: 'Option 1', value: 'opt_1' },
   { name: 'Option 2', value: 'opt_2' },
 ]
