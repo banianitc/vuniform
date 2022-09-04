@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang='ts'>
-import { onBeforeMount, onMounted, onUnmounted, provide, ref, watch } from 'vue';
+import { onMounted, onUnmounted, provide, ref, watch } from 'vue';
 // import LoadingSpinner from 'vue-loading-overlay';
 // import themeColors from '@/themeColors.json';
 import { useFormsStore } from '../stores/forms';
@@ -27,7 +27,7 @@ const configuration = {
   clearErrorsOnEdit: true,
 }
 
-onBeforeMount(() => {
+onMounted(() => {
   formsStore.INIT_FORM({ formId: props.formId, config: configuration })
 
   watch(() => props.initialValues, (current: unknown, old: unknown) => {

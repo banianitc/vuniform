@@ -17,86 +17,6 @@
               input-id='text_input_1'
           />
         </div>
-
-        <div class='vnf-py-2'>
-          <StructuredPassword
-              label='Structured Password Input'
-              :showable='true'
-              input-id='password'
-          />
-        </div>
-
-
-        <hr>
-
-        <div class='vnf-py-2'>
-          <Dropdown
-              label='Dropdown'
-              input-id='dropdown'
-              :options='dropdownOptions'
-          />
-        </div>
-
-        <div class='vnf-py-2'>
-          <Checkbox
-              label='checkbox'
-              input-id='checkbox'
-          />
-        </div>
-
-        <div class='vnf-py-2'>
-          <Radio
-              label='Radio'
-              input-id='radio'
-              :options='radioOptions'
-          />
-        </div>
-
-        <div class='vnf-py-2'>
-          <TokenInput
-              label='Token input'
-              input-id='token_input'
-          />
-        </div>
-
-        <div class='vnf-py-2'>
-          <Textarea
-              label='Text area'
-              input-id='textarea'
-          />
-        </div>
-
-        <div class='vnf-py-2'>
-          <StructuredRichText
-              label='Rich Text area'
-              input-id='richtext'
-          />
-        </div>
-
-        <div class='vnf-py-2'>
-          <DateTimeInput
-              label='Date and time'
-              input-id='datetime'
-          >
-            <template #dateTimePicker='{ value, showDateTimePicker, hideTimePicker, uid, autoSelect, onUpdate, onClose }'>
-              <DateTimePicker
-                  class='vnf-min-h-4'
-                  :model-value='value'
-                  :show='showDateTimePicker'
-                  :disable-time-section='hideTimePicker'
-                  :el-id='uid'
-                  :auto-select='autoSelect'
-                  @update:modelValue='onUpdate'
-                  @close='onClose'
-              />
-            </template>
-          </DateTimeInput>
-        </div>
-
-        <div class='vnf-py-2'>
-          <p>Hidden input</p>
-          <HiddenInput input-id='hidden' />
-        </div>
       </Form>
     </div>
   </div>
@@ -104,15 +24,8 @@
 </template>
 
 <script setup lang='ts'>
-import { Form, useFormsStore, StructuredInput, StructuredPassword } from '../lib/forms';
-import Dropdown from '../lib/components/structured/Dropdown.vue';
-import Checkbox from '../lib/components/structured/Checkbox.vue';
-import Radio from '../lib/components/structured/Radio.vue';
-import TokenInput from '../lib/components/structured/TokenInput.vue';
-import Textarea from '../lib/components/structured/Textarea.vue';
-import { StructuredRichText } from '../lib/forms';
-import { DateTimeInput, HiddenInput } from '../lib/forms';
-import DateTimePicker from '../components/DateTimePicker.vue';
+import { Form, useFormsStore, StructuredPassword } from '../lib/forms';
+import StructuredInput from '../lib/components/structured/Input.vue';
 
 const formsStore = useFormsStore();
 const formId = 'vuniform-demo';
