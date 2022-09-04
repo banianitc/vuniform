@@ -20,10 +20,9 @@
 </template>
 
 <script lang='ts' setup>
-import { inject, ref } from 'vue';
+import { ref } from 'vue';
 import Field from './Field.vue';
 
-const formId = inject('formId', '')
 const fieldRef = ref(null);
 const inputRef = ref(null);
 
