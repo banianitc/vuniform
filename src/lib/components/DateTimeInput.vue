@@ -103,7 +103,7 @@ const onUpdate = (val: string) => {
   emit('update:modelValue', storeValue);
   onClose();
   if (fieldRef.value?.updateModelValue) {
-    fieldRef.value.updateModelValue(value);
+    fieldRef.value.updateModelValue(storeValue);
   }
 };
 
