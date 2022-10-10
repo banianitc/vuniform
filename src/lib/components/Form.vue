@@ -1,5 +1,5 @@
 <template>
-  <form class='vnf-form'>
+  <form class='vnf-form' @submit.prevent='onSubmit'>
     <template v-if='mounted'>
       <slot />
     </template>
@@ -27,6 +27,11 @@ const configuration = {
   clearErrorsOnEdit: true,
 }
 
+const emit = defineEmits<{
+  (e: 'submit', formId: string): void
+  (e: 'reset', formId: string): void
+}>();
+
 onMounted(() => {
   formsStore.INIT_FORM({ formId: props.formId, config: configuration })
 
@@ -51,4 +56,8 @@ onMounted(() => {
 })
 
 provide('formId', props.formId)
+
+const onSubmit = () => {
+  emit('submit', props.formId)
+}
 </script>
