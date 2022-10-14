@@ -27,7 +27,7 @@
     "vue": "^3.2"
   },
   "peerDependencies": {},
-  "main": "dist/vuniform.umd.js",
+  "main": "dist/vuniform.es.js",
   "types": "dist/forms.d.ts",
   "files": [
     "dist/**/*.d.ts"
