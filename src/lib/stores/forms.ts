@@ -101,9 +101,17 @@ export const useFormsStore = defineStore('vuniform', {
       return (formId, field) => state.forms[formId]?.fields[field]?.errors || [];
     },
 
+    getFields(state: FormsState): (formId: FormId) => string[] {
+      return (formId) => Object.keys(state.forms[formId]?.fields || {})
+    },
+
+    isFieldDirty(state: FormsState): (formId: FormId, fieldName: string) => boolean {
+      return (formId, fieldName) => state.forms[formId]?.fields[fieldName]?.dirty;
+    },
+
     isFormDirty(state: FormsState): (formId: FormId) => boolean {
       return (formId): boolean =>
-        Object.keys(state.forms[formId]?.fields || []).some((fieldKey: string) => state.forms[formId].fields[fieldKey].dirty);
+        this.getFields(formId).some((fieldKey: string) => state.forms[formId].fields[fieldKey].dirty);
     },
 
     formGetValues(state: FormsState): <T>(formId: FormId) => T {
@@ -125,8 +133,11 @@ export const useFormsStore = defineStore('vuniform', {
       };
     },
 
-    SET_INITIAL_VALUES({ formId, values }: { formId: FormId; values: object }) {
+    SET_INITIAL_VALUES({ formId, values, clearDirty }: { formId: FormId; values: object, clearDirty?: boolean }) {
       this.forms[formId].config.initialValues = values;
+      if (clearDirty) {
+        this.CLEAR_FORM_DIRTY(formId);
+      }
     },
 
     RESET_FIELD_VALUES(formId: FormId) {
@@ -177,5 +188,19 @@ export const useFormsStore = defineStore('vuniform', {
     CLEAR_ERROR(state: FormsState, { formId, field }: FieldQuery) {
       // nothing
     },
+
+    CLEAR_FIELD_DIRTY({formId, field}: FieldQuery) {
+      const f = this.forms[formId]?.fields[field]
+      if (!f) {
+        return
+      }
+      f.dirty = false;
+    },
+
+    CLEAR_FORM_DIRTY(formId: FormId) {
+      for (let f of this.getFields(formId)) {
+        this.CLEAR_FIELD_DIRTY({formId, field: f});
+      }
+    }
   },
 });
