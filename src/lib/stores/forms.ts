@@ -30,20 +30,25 @@ export interface FieldConfiguration {
   default?: unknown;
 }
 
+export interface Form {
+  config: FormConfiguration;
+  errors?: string[];
+  fields: {
+    [key: string]: FormField;
+  };
+}
+
+export interface FormField {
+  config: FieldConfiguration;
+  value?: unknown;
+  errors?: string[];
+  validationErrors?: ValidationErrors;
+  dirty: boolean;
+}
+
 interface FormsState {
   forms: {
-    [key: FormId]: {
-      config: FormConfiguration;
-      errors?: string[];
-      fields: {
-        [key: string]: {
-          config: FieldConfiguration;
-          value?: unknown;
-          errors?: string[];
-          validationErrors?: ValidationErrors;
-        };
-      };
-    };
+    [key: FormId]: Form;
   };
 }
 
@@ -96,6 +101,11 @@ export const useFormsStore = defineStore('vuniform', {
       return (formId, field) => state.forms[formId]?.fields[field]?.errors || [];
     },
 
+    isFormDirty(state: FormsState): (formId: FormId) => boolean {
+      return (formId): boolean =>
+        Object.keys(state.forms[formId]?.fields || []).some((fieldKey: string) => state.forms[formId].fields[fieldKey].dirty);
+    },
+
     formGetValues(state: FormsState): <T>(formId: FormId) => T {
       return <T>(formId: FormId) =>
         Object.entries(state.forms[formId].fields).reduce((acc, [k, v]) => {
@@ -123,6 +133,7 @@ export const useFormsStore = defineStore('vuniform', {
       const fields = Object.keys(this.forms[formId].fields);
       for (const field of fields) {
         this.forms[formId].fields[field].value = this.forms[formId].config.initialValues?.[field];
+        this.forms[formId].fields[field].dirty = false;
       }
     },
 
@@ -131,14 +142,16 @@ export const useFormsStore = defineStore('vuniform', {
     },
 
     INIT_FORM_FIELD({ formId, name, config }: InitFormFieldPayload) {
-      this.forms[formId].fields[name] = {
+      this.forms[formId].fields[name] = <FormField>{
         config: { ...config },
         value: this.forms[formId].config?.initialValues?.[name] || config.default,
+        dirty: false,
       };
     },
 
     STAGE_FIELD_CHANGE({ value, query: { formId, field } }: StageInputParams) {
       this.forms[formId].fields[field].value = value;
+      this.forms[formId].fields[field].dirty = true;
       this.forms[formId].fields[field].errors = undefined;
     },
 
