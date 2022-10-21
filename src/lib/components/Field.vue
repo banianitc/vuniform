@@ -35,7 +35,7 @@ onBeforeMount(() => {
 })
 
 const internalValue = computed(() => props.overrideValue || formsStore.fieldGetValue(formId, props.inputId))
-const hasValue = computed(() => !!internalValue.value )
+const hasValue = computed(() => internalValue.value !== "" && typeof internalValue.value !== "undefined")
 
 const storeErrors = computed(() => formsStore.fieldGetErrors(formId, props.inputId) || [])
 const allErrors = computed(() => storeErrors.value.concat(props.errors))
