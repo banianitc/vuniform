@@ -155,7 +155,7 @@ export const useFormsStore = defineStore('vuniform', {
     INIT_FORM_FIELD({ formId, name, config }: InitFormFieldPayload) {
       this.forms[formId].fields[name] = <FormField>{
         config: { ...config },
-        value: this.forms[formId].config?.initialValues?.[name] || config.default,
+        value: typeof this.forms[formId].config?.initialValues?.[name] === "undefined" ? config.default : this.forms[formId].config?.initialValues?.[name],
         dirty: false,
       };
     },
