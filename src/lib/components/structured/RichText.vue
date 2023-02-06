@@ -46,6 +46,7 @@ interface Props {
   hideLabel?: boolean;
   contentClass?: string;
   overrideValue?: string;
+  placeholder?: string;
 }
 const props = defineProps<Props>()
 
