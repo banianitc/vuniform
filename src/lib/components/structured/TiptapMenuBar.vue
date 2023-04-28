@@ -25,6 +25,7 @@ import {
   LinkVariant,
   Redo,
   Undo,
+  Image,
 } from 'mdue';
 
 interface Props {
@@ -74,6 +75,19 @@ const items = [
       }
 
       props.editor.chain().focus().extendMarkRange('link').setLink({href: url}).run()
+    },
+    isActive: () => props.editor.isActive('highlight'),
+  },
+  {
+    icon: Image,
+    title: 'Image',
+    action: () => {
+      let previousImg = props.editor.getAttributes('image').src;
+      const url = window.prompt('URL', previousImg);
+      if (url === null) {
+        return;
+      }
+      props.editor.chain().focus().setImage({ src: url }).run();
     },
     isActive: () => props.editor.isActive('highlight'),
   },

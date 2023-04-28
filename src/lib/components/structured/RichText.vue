@@ -33,6 +33,7 @@ import { computed, ref, watch } from 'vue';
 import { Highlight } from '@tiptap/extension-highlight';
 import { Typography } from '@tiptap/extension-typography';
 import Placeholder from '@tiptap/extension-placeholder'
+import Image from '@tiptap/extension-image'
 import TiptapMenuBar from './TiptapMenuBar.vue';
 import { Field } from '../../forms';
 
@@ -71,6 +72,7 @@ const editor = useEditor({
     Placeholder.configure({
       placeholder: props.placeholder,
     }),
+    Image,
   ],
   onUpdate: () => {
     const value = editor.value.getHTML()
