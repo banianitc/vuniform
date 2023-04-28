@@ -70,6 +70,7 @@
           <StructuredRichText
               label='Rich Text area'
               input-id='richtext'
+              placeholder='Rich text placeholder'
           />
         </div>
 
