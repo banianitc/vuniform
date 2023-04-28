@@ -76,3 +76,11 @@
     }
   }
 }
+
+/* Display TipTap Editor placeholder for `StructuredRichText` component */
+.vnf-richtext-input {
+  .ProseMirror p.is-editor-empty:first-child::before {
+    @apply vnf-text-gray-300 vnf-float-left vnf-h-0 vnf-pointer-events-none;
+    @apply vnf-content-[attr(data-placeholder)];
+  }
+}

@@ -32,6 +32,7 @@ import Link from '@tiptap/extension-link';
 import { computed, ref, watch } from 'vue';
 import { Highlight } from '@tiptap/extension-highlight';
 import { Typography } from '@tiptap/extension-typography';
+import Placeholder from '@tiptap/extension-placeholder'
 import TiptapMenuBar from './TiptapMenuBar.vue';
 import { Field } from '../../forms';
 
@@ -66,7 +67,10 @@ const editor = useEditor({
         openOnClick: false,
         autolink: true,
         linkOnPaste: true,
-      })
+      }),
+    Placeholder.configure({
+      placeholder: props.placeholder,
+    }),
   ],
   onUpdate: () => {
     const value = editor.value.getHTML()
