@@ -92,7 +92,21 @@ const items = [
     isActive: () => props.editor.isActive('highlight'),
   },
   {
-    type: 'divider',
+    icon: Youtube,
+    title: 'Youtube',
+    action: () => {
+      let previousYt = props.editor.getAttributes("youtube").src;
+      const url = window.prompt("Please enter youtube link:", previousYt);
+      if (url === null) {
+        return;
+      }
+      props.editor
+        .chain()
+        .focus()
+        .setYoutubeVideo({ src: url })
+        .run();
+    },
+    isActive: () => props.editor.isActive("youtube"),
   },
   {
     icon: FormatHeader_1,

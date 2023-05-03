@@ -34,6 +34,7 @@ import { Highlight } from '@tiptap/extension-highlight';
 import { Typography } from '@tiptap/extension-typography';
 import Placeholder from '@tiptap/extension-placeholder'
 import Image from '@tiptap/extension-image'
+import Youtube from '@tiptap/extension-youtube'
 import TiptapMenuBar from './TiptapMenuBar.vue';
 import { Field } from '../../forms';
 
@@ -73,6 +74,9 @@ const editor = useEditor({
       placeholder: props.placeholder,
     }),
     Image,
+    Youtube.configure({
+      controls: false,
+    }),
   ],
   onUpdate: () => {
     const value = editor.value.getHTML()
