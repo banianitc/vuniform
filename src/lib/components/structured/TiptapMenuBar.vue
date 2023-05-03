@@ -90,6 +90,22 @@ const items = [
       props.editor.chain().focus().setImage({ src: url }).run();
     },
     isActive: () => props.editor.isActive('highlight'),
+  {
+    icon: Iframe,
+    title: 'Embed',
+    action: () => {
+      let previousIframe = props.editor.getAttributes("iframe").src;
+      const url = window.prompt("Please enter link from embedded video:", previousIframe);
+      if (url === null) {
+        return;
+      }
+      props.editor
+        .chain()
+        .focus()
+        .setIframe({ src: url })
+        .run();
+    },
+    isActive: () => props.editor.isActive("iframe"),
   },
   {
     icon: Youtube,
