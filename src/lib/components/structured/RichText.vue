@@ -38,6 +38,7 @@ import Youtube from '@tiptap/extension-youtube'
 import IFrame from '../../../util/tiptap-extensions/iframe';
 import TiptapMenuBar from './TiptapMenuBar.vue';
 import { Field } from '../../forms';
+import { RichTextMenuItemEnum, RichTextMenuItemConfig } from '../../../util/enums';
 
 const fieldRef = ref(null);
 
@@ -51,8 +52,36 @@ interface Props {
   contentClass?: string;
   overrideValue?: string;
   placeholder?: string;
+  menuitemsConfig?: RichTextMenuItemConfig;
 }
-const props = defineProps<Props>()
+
+const defaultMenuItemConfig = [
+  { type: RichTextMenuItemEnum.BOLD, manual: false },
+  { type: RichTextMenuItemEnum.ITALIC, manual: false },
+  { type: RichTextMenuItemEnum.STRIKE, manual: false },
+  { type: RichTextMenuItemEnum.CODE, manual: false },
+  { type: RichTextMenuItemEnum.LINK, manual: false },
+  { type: RichTextMenuItemEnum.IMAGE, manual: false },
+  { type: RichTextMenuItemEnum.EMBED, manual: false },
+  { type: RichTextMenuItemEnum.YOUTUBE, manual: false },
+  { type: RichTextMenuItemEnum.DIVIDER, manual: false },
+  { type: RichTextMenuItemEnum.HEADING_1, manual: false },
+  { type: RichTextMenuItemEnum.HEADING_2, manual: false },
+  { type: RichTextMenuItemEnum.PARAGRAPH, manual: false },
+  { type: RichTextMenuItemEnum.BULLET_LIST, manual: false },
+  { type: RichTextMenuItemEnum.ORDERED_LIST, manual: false },
+  { type: RichTextMenuItemEnum.DIVIDER, manual: false },
+  { type: RichTextMenuItemEnum.BLOCKQUOTE, manual: false },
+  { type: RichTextMenuItemEnum.DIVIDER, manual: false },
+  { type: RichTextMenuItemEnum.CLEAR_FORMAT, manual: false },
+  { type: RichTextMenuItemEnum.DIVIDER, manual: false },
+  { type: RichTextMenuItemEnum.UNDO, manual: false },
+  { type: RichTextMenuItemEnum.REDO, manual: false },
+];
+
+const props = withDefaults(defineProps<Props>(), {
+  menuitemsConfig: defaultMenuItemConfig,
+});
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
