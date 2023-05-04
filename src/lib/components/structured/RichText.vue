@@ -7,7 +7,11 @@
     <div class='vnf-richtext-input tiptap-editor' v-if='editor'>
       <label v-if='!hideLabel' :for='uid' class='vnf-label'>{{ label }}</label>
       <slot name='menuBar' v-bind='editor'>
-        <TiptapMenuBar :editor='editor' />
+        <TiptapMenuBar
+          :editor="editor"
+          :menu-items="menuItemsConfig"
+          @mitem:click="(param) => $emit('mitem:click', param)"
+        />
       </slot>
       <EditorContent
         :id='uid'
@@ -38,7 +42,7 @@ import Youtube from '@tiptap/extension-youtube'
 import IFrame from '../../../util/tiptap-extensions/iframe';
 import TiptapMenuBar from './TiptapMenuBar.vue';
 import { Field } from '../../forms';
-import { RichTextMenuItemEnum, RichTextMenuItemConfig } from '../../../util/enums';
+import { RichTextMenuItemEnum, type RichTextMenuItemConfig } from '../../../util/enums';
 
 const fieldRef = ref(null);
 
@@ -52,10 +56,11 @@ interface Props {
   contentClass?: string;
   overrideValue?: string;
   placeholder?: string;
-  menuitemsConfig?: RichTextMenuItemConfig;
+  menuItemsConfig?: RichTextMenuItemConfig;
 }
 
-const defaultMenuItemConfig = [
+const props = withDefaults(defineProps<Props>(), {
+  menuItemsConfig: () => [
   { type: RichTextMenuItemEnum.BOLD, manual: false },
   { type: RichTextMenuItemEnum.ITALIC, manual: false },
   { type: RichTextMenuItemEnum.STRIKE, manual: false },
@@ -77,14 +82,12 @@ const defaultMenuItemConfig = [
   { type: RichTextMenuItemEnum.DIVIDER, manual: false },
   { type: RichTextMenuItemEnum.UNDO, manual: false },
   { type: RichTextMenuItemEnum.REDO, manual: false },
-];
-
-const props = withDefaults(defineProps<Props>(), {
-  menuitemsConfig: defaultMenuItemConfig,
+],
 });
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
+  (e: 'mitem:click', payload: { type: RichTextMenuItemEnum, action: Function }): void
 }>()
 
 const value = computed(() => <string>fieldRef.value?.value || '')

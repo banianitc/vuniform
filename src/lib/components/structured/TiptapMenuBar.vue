@@ -1,15 +1,26 @@
 <template>
-  <div class='menu-bar'>
-    <template v-for="(item, index) in items">
-      <div class="divider" v-if="item.type === 'divider'" :key="`divider${index}`" />
-      <menu-item tabindex='-1' v-else :key="index" v-bind="item" />
+  <div class="menu-bar">
+    <template v-for="(item, index) in menuItemsCalculated">
+      <div
+        class="divider"
+        v-if="item.type === RichTextMenuItemEnum.DIVIDER"
+        :key="`divider${index}`"
+      />
+      <menu-item
+        tabindex="-1"
+        v-else
+        :key="index"
+        v-bind="item"
+        @mitem:click="(param) => $emit('mitem:click', param)"
+      />
     </template>
   </div>
 </template>
 
-<script setup lang='ts'>
+<script setup lang="ts">
+import { ref, computed } from 'vue';
 import MenuItem from './TiptapMenuItem.vue';
-import { RichTextMenuItemEnum } from '../../../util/enums';
+import { RichTextMenuItemEnum, type RichTextMenuItemConfig } from '../../../util/enums';
 import type { Editor } from '@tiptap/vue-3';
 import {
   CodeTags,
@@ -28,14 +39,20 @@ import {
   Undo,
   Image,
   Iframe,
+  Youtube
 } from 'mdue';
 
 interface Props {
   editor: Editor;
+  menuItems?: RichTextMenuItemConfig;
 }
+
+const emit = defineEmits<{
+  (e: 'mitem:click', payload: { type: RichTextMenuItemEnum, action: Function }): void
+}>();
 const props = defineProps<Props>()
 
-const items = [
+const menuItemTemplate = [
   {
     icon: FormatBold,
     title: RichTextMenuItemEnum.BOLD,
@@ -205,4 +222,12 @@ const items = [
     action: () => props.editor.chain().focus().redo().run(),
   },
 ]
+
+const menuItemsCalculated = computed(() => {
+  return props.menuItems.map((x) => {
+    const foundItem =
+      menuItemTemplate.find((item) => item.title === x.type) || {};
+    return Object.assign({}, { ...foundItem }, { ...x });
+  });
+});
 </script>
