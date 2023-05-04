@@ -35,6 +35,10 @@ import {
   FormatQuoteClose,
   FormatStrikethrough,
   FormatTextWrappingWrap,
+  FormatAlignLeft,
+  FormatAlignCenter,
+  FormatAlignRight,
+  FormatAlignJustify,
   LinkVariant,
   Minus,
   Redo,
@@ -205,12 +209,37 @@ const menuItemTemplate = [
     action: () => props.editor.chain().focus().setHardBreak().run(),
   },
   {
+    icon: FormatAlignLeft,
+    title: RichTextMenuItemEnum.ALIGN_LEFT,
+    action: () => props.editor.chain().focus().setTextAlign('left').run(),
+    isActive: () => props.editor.isActive("left"),
+  },
+  {
+    icon: FormatAlignCenter,
+    title: RichTextMenuItemEnum.ALIGN_CENTER,
+    action: () => props.editor.chain().focus().setTextAlign('center').run(),
+    isActive: () => props.editor.isActive('center'),
+  },
+  {
+    icon: FormatAlignRight,
+    title: RichTextMenuItemEnum.ALIGN_RIGHT,
+    action: () => props.editor.chain().focus().setTextAlign('right').run(),
+    isActive: () => props.editor.isActive('right'),
+  },
+  {
+    icon: FormatAlignJustify,
+    title: RichTextMenuItemEnum.ALIGN_JUSTIFY,
+    action: () => props.editor.chain().focus().setTextAlign('justify').run(),
+    isActive: () => props.editor.isActive('justify'),
+  },
+  {
     icon: FormatClear,
     title: RichTextMenuItemEnum.CLEAR_FORMAT,
     action: () => props.editor.chain()
         .focus()
         .clearNodes()
         .unsetAllMarks()
+        .unsetTextAlign()
         .run(),
   },
   {

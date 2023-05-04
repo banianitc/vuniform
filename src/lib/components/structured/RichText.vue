@@ -39,6 +39,7 @@ import { Typography } from '@tiptap/extension-typography';
 import Placeholder from '@tiptap/extension-placeholder'
 import Image from '@tiptap/extension-image'
 import Youtube from '@tiptap/extension-youtube'
+import TextAlign from '@tiptap/extension-text-align'
 import IFrame from '../../../util/tiptap-extensions/iframe';
 import TiptapMenuBar from './TiptapMenuBar.vue';
 import { Field } from '../../forms';
@@ -98,6 +99,9 @@ const editor = useEditor({
       StarterKit,
       Highlight,
       Typography,
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
       Link.configure({
         openOnClick: false,
         autolink: true,
