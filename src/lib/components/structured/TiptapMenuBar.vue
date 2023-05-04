@@ -34,7 +34,9 @@ import {
   FormatParagraph,
   FormatQuoteClose,
   FormatStrikethrough,
+  FormatTextWrappingWrap,
   LinkVariant,
+  Minus,
   Redo,
   Undo,
   Image,
@@ -187,27 +189,21 @@ const menuItemTemplate = [
     isActive: () => props.editor.isActive('orderedList'),
   },
   {
-    title: RichTextMenuItemEnum.DIVIDER,
-  },
-  {
     icon: FormatQuoteClose,
     title: RichTextMenuItemEnum.BLOCKQUOTE,
     action: () => props.editor.chain().focus().toggleBlockquote().run(),
     isActive: () => props.editor.isActive('blockquote'),
   },
-  // {
-  //   icon: 'separator',
-  //   title: RichTextMenuItemEnum.HORIZONTAL_RULE,
-  //   action: () => props.editor.chain().focus().setHorizontalRule().run(),
-  // },
   {
-    title: RichTextMenuItemEnum.DIVIDER,
+    icon: Minus,
+    title: RichTextMenuItemEnum.HORIZONTAL_RULE,
+    action: () => props.editor.chain().focus().setHorizontalRule().run(),
   },
-  // {
-  //   icon: 'text-wrap',
-  //   title: RichTextMenuItemEnum.HARD_BREAK,
-  //   action: () => props.editor.chain().focus().setHardBreak().run(),
-  // },
+  {
+    icon: FormatTextWrappingWrap,
+    title: RichTextMenuItemEnum.HARD_BREAK,
+    action: () => props.editor.chain().focus().setHardBreak().run(),
+  },
   {
     icon: FormatClear,
     title: RichTextMenuItemEnum.CLEAR_FORMAT,
@@ -216,9 +212,6 @@ const menuItemTemplate = [
         .clearNodes()
         .unsetAllMarks()
         .run(),
-  },
-  {
-    title: RichTextMenuItemEnum.DIVIDER,
   },
   {
     icon: Undo,
