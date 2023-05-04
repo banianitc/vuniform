@@ -41,6 +41,7 @@ import Image from '@tiptap/extension-image';
 import Youtube from '@tiptap/extension-youtube';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
+import Underline from '@tiptap/extension-underline';
 import { Color } from '@tiptap/extension-color';
 import IFrame from '../../../util/tiptap-extensions/iframe';
 import TiptapMenuBar from './TiptapMenuBar.vue';
@@ -111,6 +112,7 @@ const editor = useEditor({
     Color.configure({
       types: ['textStyle'],
     }),
+    Underline,
     Link.configure({
       openOnClick: false,
       autolink: true,

@@ -29,4 +29,5 @@ export enum RichTextMenuItemEnum {
   UNDO = 'Undo',
   REDO = 'Redo',
   COLOR = 'Color',
+  UNDERLINE = 'Underline',
 };

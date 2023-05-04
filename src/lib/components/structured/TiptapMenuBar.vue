@@ -45,6 +45,7 @@ import {
   FormatAlignCenter,
   FormatAlignRight,
   FormatAlignJustify,
+  FormatUnderline,
   LinkVariant,
   Minus,
   Redo,
@@ -167,6 +168,12 @@ const menuItemTemplate = [
   },
   {
     title: RichTextMenuItemEnum.DIVIDER,
+  },
+  {
+    icon: FormatUnderline,
+    title: RichTextMenuItemEnum.UNDERLINE,
+    action: () => props.editor.chain().focus().toggleUnderline().run(),
+    isActive: () => props.editor.isActive('underline'),
   },
   {
     icon: FormatHeader_1,
