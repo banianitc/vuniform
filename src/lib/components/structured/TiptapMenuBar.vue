@@ -113,16 +113,22 @@ const menuItemTemplate = [
   {
     icon: Iframe,
     title: RichTextMenuItemEnum.EMBED,
-    action: () => {
-      let previousIframe = props.editor.getAttributes("iframe").src;
-      const url = window.prompt("Please enter link from embedded video:", previousIframe);
-      if (url === null) {
-        return;
+    action: (url?: string, config = {}) => {
+      let inputUrl = url;
+      if (!url) {
+        let previousIframe = props.editor.getAttributes("iframe").src;
+        inputUrl = window.prompt(
+          "Please enter link for embed:",
+          previousIframe
+        );
+        if (inputUrl === null) {
+          return;
+        }
       }
       props.editor
         .chain()
         .focus()
-        .setIframe({ src: url })
+        .setIframe({ src: inputUrl, ...config })
         .run();
     },
     isActive: () => props.editor.isActive("iframe"),
@@ -130,16 +136,19 @@ const menuItemTemplate = [
   {
     icon: Youtube,
     title: RichTextMenuItemEnum.YOUTUBE,
-    action: () => {
-      let previousYt = props.editor.getAttributes("youtube").src;
-      const url = window.prompt("Please enter youtube link:", previousYt);
-      if (url === null) {
-        return;
+    action: (url?: string, config = {}) => {
+      let inputUrl = url;
+      if (!url) {
+        let previousIframe = props.editor.getAttributes("youtube").src;
+        inputUrl = window.prompt("Please enter youtube link:", previousIframe);
+        if (inputUrl === null) {
+          return;
+        }
       }
       props.editor
         .chain()
         .focus()
-        .setYoutubeVideo({ src: url })
+        .setYoutubeVideo({ src: inputUrl, ...config })
         .run();
     },
     isActive: () => props.editor.isActive("youtube"),
