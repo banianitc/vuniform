@@ -6,6 +6,12 @@
         v-if="item.type === RichTextMenuItemEnum.DIVIDER"
         :key="`divider${index}`"
       />
+      <input
+        v-else-if="item.type === RichTextMenuItemEnum.COLOR"
+        type="color"
+        @input="editor.chain().focus().setColor($event.target.value).run()"
+        :value="editor.getAttributes('textStyle').color"
+      />
       <menu-item
         tabindex="-1"
         v-else
@@ -241,6 +247,9 @@ const menuItemTemplate = [
         .unsetAllMarks()
         .unsetTextAlign()
         .run(),
+  },
+  {
+    title: RichTextMenuItemEnum.COLOR,
   },
   {
     icon: Undo,

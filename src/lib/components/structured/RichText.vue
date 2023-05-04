@@ -36,10 +36,12 @@ import Link from '@tiptap/extension-link';
 import { computed, ref, watch } from 'vue';
 import { Highlight } from '@tiptap/extension-highlight';
 import { Typography } from '@tiptap/extension-typography';
-import Placeholder from '@tiptap/extension-placeholder'
-import Image from '@tiptap/extension-image'
-import Youtube from '@tiptap/extension-youtube'
-import TextAlign from '@tiptap/extension-text-align'
+import Placeholder from '@tiptap/extension-placeholder';
+import Image from '@tiptap/extension-image';
+import Youtube from '@tiptap/extension-youtube';
+import TextAlign from '@tiptap/extension-text-align';
+import TextStyle from '@tiptap/extension-text-style';
+import { Color } from '@tiptap/extension-color';
 import IFrame from '../../../util/tiptap-extensions/iframe';
 import TiptapMenuBar from './TiptapMenuBar.vue';
 import { Field } from '../../forms';
@@ -96,17 +98,21 @@ const value = computed(() => <string>fieldRef.value?.value || '')
 const editor = useEditor({
   content: value.value,
   extensions: [
-      StarterKit,
-      Highlight,
-      Typography,
-      TextAlign.configure({
-        types: ['heading', 'paragraph'],
-      }),
-      Link.configure({
-        openOnClick: false,
-        autolink: true,
-        linkOnPaste: true,
-      }),
+    StarterKit,
+    Highlight,
+    Typography,
+    TextStyle,
+    TextAlign.configure({
+      types: ['heading', 'paragraph'],
+    }),
+    Color.configure({
+      types: ['textStyle'],
+    }),
+    Link.configure({
+      openOnClick: false,
+      autolink: true,
+      linkOnPaste: true,
+    }),
     Placeholder.configure({
       placeholder: props.placeholder,
     }),

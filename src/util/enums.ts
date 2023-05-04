@@ -28,4 +28,5 @@ export enum RichTextMenuItemEnum {
   CLEAR_FORMAT = 'Clear formatting',
   UNDO = 'Undo',
   REDO = 'Redo',
+  COLOR = 'Color',
 };
