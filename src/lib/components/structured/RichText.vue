@@ -36,9 +36,13 @@ import Link from '@tiptap/extension-link';
 import { computed, ref, watch } from 'vue';
 import { Highlight } from '@tiptap/extension-highlight';
 import { Typography } from '@tiptap/extension-typography';
-import Placeholder from '@tiptap/extension-placeholder'
-import Image from '@tiptap/extension-image'
-import Youtube from '@tiptap/extension-youtube'
+import Placeholder from '@tiptap/extension-placeholder';
+import Image from '@tiptap/extension-image';
+import Youtube from '@tiptap/extension-youtube';
+import TextAlign from '@tiptap/extension-text-align';
+import TextStyle from '@tiptap/extension-text-style';
+import Underline from '@tiptap/extension-underline';
+import { Color } from '@tiptap/extension-color';
 import IFrame from '../../../util/tiptap-extensions/iframe';
 import TiptapMenuBar from './TiptapMenuBar.vue';
 import { Field } from '../../forms';
@@ -64,7 +68,6 @@ const props = withDefaults(defineProps<Props>(), {
   { type: RichTextMenuItemEnum.BOLD, manual: false },
   { type: RichTextMenuItemEnum.ITALIC, manual: false },
   { type: RichTextMenuItemEnum.STRIKE, manual: false },
-  { type: RichTextMenuItemEnum.CODE, manual: false },
   { type: RichTextMenuItemEnum.LINK, manual: false },
   { type: RichTextMenuItemEnum.IMAGE, manual: false },
   { type: RichTextMenuItemEnum.EMBED, manual: false },
@@ -76,6 +79,10 @@ const props = withDefaults(defineProps<Props>(), {
   { type: RichTextMenuItemEnum.BULLET_LIST, manual: false },
   { type: RichTextMenuItemEnum.ORDERED_LIST, manual: false },
   { type: RichTextMenuItemEnum.DIVIDER, manual: false },
+  { type: RichTextMenuItemEnum.ALIGN_LEFT, manual: false },
+  { type: RichTextMenuItemEnum.ALIGN_CENTER, manual: false },
+  { type: RichTextMenuItemEnum.ALIGN_RIGHT, manual: false },
+  { type: RichTextMenuItemEnum.ALIGN_JUSTIFY, manual: false },
   { type: RichTextMenuItemEnum.BLOCKQUOTE, manual: false },
   { type: RichTextMenuItemEnum.DIVIDER, manual: false },
   { type: RichTextMenuItemEnum.CLEAR_FORMAT, manual: false },
@@ -95,14 +102,22 @@ const value = computed(() => <string>fieldRef.value?.value || '')
 const editor = useEditor({
   content: value.value,
   extensions: [
-      StarterKit,
-      Highlight,
-      Typography,
-      Link.configure({
-        openOnClick: false,
-        autolink: true,
-        linkOnPaste: true,
-      }),
+    StarterKit,
+    Highlight,
+    Typography,
+    TextStyle,
+    TextAlign.configure({
+      types: ['heading', 'paragraph'],
+    }),
+    Color.configure({
+      types: ['textStyle'],
+    }),
+    Underline,
+    Link.configure({
+      openOnClick: false,
+      autolink: true,
+      linkOnPaste: true,
+    }),
     Placeholder.configure({
       placeholder: props.placeholder,
     }),

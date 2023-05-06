@@ -21,7 +21,13 @@ export enum RichTextMenuItemEnum {
   BLOCKQUOTE = 'Blockquote',
   HORIZONTAL_RULE = 'Horizontal Rule',
   HARD_BREAK = 'Hard Break',
+  ALIGN_LEFT = 'Align Left',
+  ALIGN_CENTER = 'Align Center',
+  ALIGN_RIGHT = 'Align Right',
+  ALIGN_JUSTIFY = 'Align Justify',
   CLEAR_FORMAT = 'Clear formatting',
   UNDO = 'Undo',
   REDO = 'Redo',
+  COLOR = 'Color',
+  UNDERLINE = 'Underline',
 };

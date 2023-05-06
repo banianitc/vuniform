@@ -6,6 +6,12 @@
         v-if="item.type === RichTextMenuItemEnum.DIVIDER"
         :key="`divider${index}`"
       />
+      <input
+        v-else-if="item.type === RichTextMenuItemEnum.COLOR"
+        type="color"
+        @input="editor.chain().focus().setColor($event.target.value).run()"
+        :value="editor.getAttributes('textStyle').color"
+      />
       <menu-item
         tabindex="-1"
         v-else
@@ -35,6 +41,11 @@ import {
   FormatQuoteClose,
   FormatStrikethrough,
   FormatTextWrappingWrap,
+  FormatAlignLeft,
+  FormatAlignCenter,
+  FormatAlignRight,
+  FormatAlignJustify,
+  FormatUnderline,
   LinkVariant,
   Minus,
   Redo,
@@ -159,6 +170,12 @@ const menuItemTemplate = [
     title: RichTextMenuItemEnum.DIVIDER,
   },
   {
+    icon: FormatUnderline,
+    title: RichTextMenuItemEnum.UNDERLINE,
+    action: () => props.editor.chain().focus().toggleUnderline().run(),
+    isActive: () => props.editor.isActive('underline'),
+  },
+  {
     icon: FormatHeader_1,
     title: RichTextMenuItemEnum.HEADING_1,
     action: () => props.editor.chain().focus().toggleHeading({ level: 1 }).run(),
@@ -205,13 +222,41 @@ const menuItemTemplate = [
     action: () => props.editor.chain().focus().setHardBreak().run(),
   },
   {
+    icon: FormatAlignLeft,
+    title: RichTextMenuItemEnum.ALIGN_LEFT,
+    action: () => props.editor.chain().focus().setTextAlign('left').run(),
+    isActive: () => props.editor.isActive("left"),
+  },
+  {
+    icon: FormatAlignCenter,
+    title: RichTextMenuItemEnum.ALIGN_CENTER,
+    action: () => props.editor.chain().focus().setTextAlign('center').run(),
+    isActive: () => props.editor.isActive('center'),
+  },
+  {
+    icon: FormatAlignRight,
+    title: RichTextMenuItemEnum.ALIGN_RIGHT,
+    action: () => props.editor.chain().focus().setTextAlign('right').run(),
+    isActive: () => props.editor.isActive('right'),
+  },
+  {
+    icon: FormatAlignJustify,
+    title: RichTextMenuItemEnum.ALIGN_JUSTIFY,
+    action: () => props.editor.chain().focus().setTextAlign('justify').run(),
+    isActive: () => props.editor.isActive('justify'),
+  },
+  {
     icon: FormatClear,
     title: RichTextMenuItemEnum.CLEAR_FORMAT,
     action: () => props.editor.chain()
         .focus()
         .clearNodes()
         .unsetAllMarks()
+        .unsetTextAlign()
         .run(),
+  },
+  {
+    title: RichTextMenuItemEnum.COLOR,
   },
   {
     icon: Undo,
