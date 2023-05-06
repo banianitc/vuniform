@@ -7,7 +7,11 @@
     <div class='vnf-richtext-input tiptap-editor' v-if='editor'>
       <label v-if='!hideLabel' :for='uid' class='vnf-label'>{{ label }}</label>
       <slot name='menuBar' v-bind='editor'>
-        <TiptapMenuBar :editor='editor' />
+        <TiptapMenuBar
+          :editor="editor"
+          :menu-items="menuItemsConfig"
+          @mitem:click="(param) => $emit('mitem:click', param)"
+        />
       </slot>
       <EditorContent
         :id='uid'
@@ -34,8 +38,11 @@ import { Highlight } from '@tiptap/extension-highlight';
 import { Typography } from '@tiptap/extension-typography';
 import Placeholder from '@tiptap/extension-placeholder'
 import Image from '@tiptap/extension-image'
+import Youtube from '@tiptap/extension-youtube'
+import IFrame from '../../../util/tiptap-extensions/iframe';
 import TiptapMenuBar from './TiptapMenuBar.vue';
 import { Field } from '../../forms';
+import { RichTextMenuItemEnum, type RichTextMenuItemConfig } from '../../../util/enums';
 
 const fieldRef = ref(null);
 
@@ -49,11 +56,38 @@ interface Props {
   contentClass?: string;
   overrideValue?: string;
   placeholder?: string;
+  menuItemsConfig?: RichTextMenuItemConfig;
 }
-const props = defineProps<Props>()
+
+const props = withDefaults(defineProps<Props>(), {
+  menuItemsConfig: () => [
+  { type: RichTextMenuItemEnum.BOLD, manual: false },
+  { type: RichTextMenuItemEnum.ITALIC, manual: false },
+  { type: RichTextMenuItemEnum.STRIKE, manual: false },
+  { type: RichTextMenuItemEnum.CODE, manual: false },
+  { type: RichTextMenuItemEnum.LINK, manual: false },
+  { type: RichTextMenuItemEnum.IMAGE, manual: false },
+  { type: RichTextMenuItemEnum.EMBED, manual: false },
+  { type: RichTextMenuItemEnum.YOUTUBE, manual: false },
+  { type: RichTextMenuItemEnum.DIVIDER, manual: false },
+  { type: RichTextMenuItemEnum.HEADING_1, manual: false },
+  { type: RichTextMenuItemEnum.HEADING_2, manual: false },
+  { type: RichTextMenuItemEnum.PARAGRAPH, manual: false },
+  { type: RichTextMenuItemEnum.BULLET_LIST, manual: false },
+  { type: RichTextMenuItemEnum.ORDERED_LIST, manual: false },
+  { type: RichTextMenuItemEnum.DIVIDER, manual: false },
+  { type: RichTextMenuItemEnum.BLOCKQUOTE, manual: false },
+  { type: RichTextMenuItemEnum.DIVIDER, manual: false },
+  { type: RichTextMenuItemEnum.CLEAR_FORMAT, manual: false },
+  { type: RichTextMenuItemEnum.DIVIDER, manual: false },
+  { type: RichTextMenuItemEnum.UNDO, manual: false },
+  { type: RichTextMenuItemEnum.REDO, manual: false },
+],
+});
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string): void
+  (e: 'mitem:click', payload: { type: RichTextMenuItemEnum, action: Function }): void
 }>()
 
 const value = computed(() => <string>fieldRef.value?.value || '')
@@ -73,6 +107,10 @@ const editor = useEditor({
       placeholder: props.placeholder,
     }),
     Image,
+    Youtube.configure({
+      controls: false,
+    }),
+    IFrame,
   ],
   onUpdate: () => {
     const value = editor.value.getHTML()

@@ -19,6 +19,8 @@ import StructuredCheckbox from './components/structured/Checkbox.vue';
 import StructuredRadio from './components/structured/Radio.vue';
 import StructuredTokenInput from './components/structured/TokenInput.vue';
 
+import { RichTextMenuItemEnum, type RichTextMenuItemConfig } from '../util/enums';
+
 import {
   useFormsStore,
   type FormRequest
@@ -48,4 +50,7 @@ export {
   StructuredTokenInput,
   StructuredTextarea,
   StructuredRichText,
+
+  RichTextMenuItemEnum,
+  RichTextMenuItemConfig,
 };
