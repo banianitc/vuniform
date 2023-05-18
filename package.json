@@ -27,6 +27,7 @@
     "@tiptap/pm": "^2.0.3",
     "@tiptap/starter-kit": "^2.0.3",
     "@tiptap/vue-3": "^2.0.3",
+    "@vp/tiptap-embed": "../tiptap-embeds",
     "luxon": "^2.4.0",
     "mdue": "^0.1.4",
     "pinia": "^2.0.14",

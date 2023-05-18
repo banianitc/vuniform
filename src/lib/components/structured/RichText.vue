@@ -43,6 +43,9 @@ import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import { Color } from '@tiptap/extension-color';
+import TiptapEmbed from '@vp/tiptap-embed';
+// Web component is being used to replace custom embed tags with the actual embeds
+import { TiptapEmbedWebComponent } from '@vp/tiptap-embed';
 import TiptapMenuBar from './TiptapMenuBar.vue';
 import { Field } from '../../forms';
 import { RichTextMenuItemEnum, type RichTextMenuItemConfig } from '../../../util/enums';
@@ -124,6 +127,7 @@ const editor = useEditor({
     Youtube.configure({
       controls: false,
     }),
+    TiptapEmbed,
   ],
   onUpdate: () => {
     const value = editor.value.getHTML()
