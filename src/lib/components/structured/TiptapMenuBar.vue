@@ -26,7 +26,11 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import MenuItem from './TiptapMenuItem.vue';
-import { RichTextMenuItemEnum, type RichTextMenuItemConfig } from '../../../util/enums';
+import {
+  RichTextMenuItemEnum,
+  type RichTextMenuItemConfig,
+} from '../../../util/enums';
+import { EmbedType } from '@vp/tiptap-embed';
 import type { Editor } from '@tiptap/vue-3';
 import {
   CodeTags,
@@ -52,7 +56,7 @@ import {
   Undo,
   Image,
   Iframe,
-  Youtube
+  Youtube,
 } from 'mdue';
 
 interface Props {
@@ -131,25 +135,18 @@ const menuItemTemplate = [
   {
     icon: Iframe,
     title: RichTextMenuItemEnum.EMBED,
-    action: (url?: string, config = {}) => {
-      let inputUrl = url;
+    action: (url?: string, type?: EmbedType) => {
+      let inputCode = url;
       if (!url) {
-        let previousIframe = props.editor.getAttributes("iframe").src;
-        inputUrl = window.prompt(
-          "Please enter link for embed:",
-          previousIframe
-        );
-        if (inputUrl === null) {
+        let previousIframe: string;
+        inputCode = window.prompt('Please enter embed code:', previousIframe);
+        if (inputCode === null) {
           return;
         }
       }
-      props.editor
-        .chain()
-        .focus()
-        .setIframe({ src: inputUrl, ...config })
-        .run();
+      props.editor.chain().focus().setEmbed(inputCode, type).run();
     },
-    isActive: () => props.editor.isActive("iframe"),
+    isActive: () => props.editor.isActive('tiptap-embed'),
   },
   {
     icon: Youtube,
