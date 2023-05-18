@@ -43,7 +43,6 @@ import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
 import { Color } from '@tiptap/extension-color';
-import IFrame from '../../../util/tiptap-extensions/iframe';
 import TiptapMenuBar from './TiptapMenuBar.vue';
 import { Field } from '../../forms';
 import { RichTextMenuItemEnum, type RichTextMenuItemConfig } from '../../../util/enums';
@@ -125,7 +124,6 @@ const editor = useEditor({
     Youtube.configure({
       controls: false,
     }),
-    IFrame,
   ],
   onUpdate: () => {
     const value = editor.value.getHTML()
