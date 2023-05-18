@@ -65,9 +65,12 @@ interface Props {
 }
 
 const emit = defineEmits<{
-  (e: 'mitem:click', payload: { type: RichTextMenuItemEnum, action: Function }): void
+  (
+    e: 'mitem:click',
+    payload: { type: RichTextMenuItemEnum; action: Function }
+  ): void;
 }>();
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
 const menuItemTemplate = [
   {
@@ -154,8 +157,8 @@ const menuItemTemplate = [
     action: (url?: string, config = {}) => {
       let inputUrl = url;
       if (!url) {
-        let previousIframe = props.editor.getAttributes("youtube").src;
-        inputUrl = window.prompt("Please enter youtube link:", previousIframe);
+        let previousIframe = props.editor.getAttributes('youtube').src;
+        inputUrl = window.prompt('Please enter youtube link:', previousIframe);
         if (inputUrl === null) {
           return;
         }
@@ -166,7 +169,7 @@ const menuItemTemplate = [
         .setYoutubeVideo({ src: inputUrl, ...config })
         .run();
     },
-    isActive: () => props.editor.isActive("youtube"),
+    isActive: () => props.editor.isActive('youtube'),
   },
   {
     title: RichTextMenuItemEnum.DIVIDER,
@@ -180,13 +183,15 @@ const menuItemTemplate = [
   {
     icon: FormatHeader_1,
     title: RichTextMenuItemEnum.HEADING_1,
-    action: () => props.editor.chain().focus().toggleHeading({ level: 1 }).run(),
+    action: () =>
+      props.editor.chain().focus().toggleHeading({ level: 1 }).run(),
     isActive: () => props.editor.isActive('heading', { level: 1 }),
   },
   {
     icon: FormatHeader_2,
     title: RichTextMenuItemEnum.HEADING_2,
-    action: () => props.editor.chain().focus().toggleHeading({ level: 2 }).run(),
+    action: () =>
+      props.editor.chain().focus().toggleHeading({ level: 2 }).run(),
     isActive: () => props.editor.isActive('heading', { level: 2 }),
   },
   {
@@ -288,7 +293,7 @@ const menuItemTemplate = [
     title: RichTextMenuItemEnum.REDO,
     action: () => props.editor.chain().focus().redo().run(),
   },
-]
+];
 
 const menuItemsCalculated = computed(() => {
   return props.menuItems.map((x) => {
