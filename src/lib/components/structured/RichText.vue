@@ -109,7 +109,7 @@ const editor = useEditor({
     Typography,
     TextStyle,
     TextAlign.configure({
-      types: ['heading', 'paragraph'],
+      types: ['heading', 'paragraph', 'image'],
     }),
     Color.configure({
       types: ['textStyle'],
