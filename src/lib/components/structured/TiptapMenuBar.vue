@@ -226,19 +226,34 @@ const menuItemTemplate = [
   {
     icon: FormatAlignLeft,
     title: RichTextMenuItemEnum.ALIGN_LEFT,
-    action: () => props.editor.chain().focus().setTextAlign('left').run(),
-    isActive: () => props.editor.isActive("left"),
+    action: () => {
+      if (props.editor.state.selection.node.type.name === 'tiptap-embed') {
+        return props.editor.chain().focus().setEmbedAlign('flex-start').run();
+      }
+      return props.editor.chain().focus().setTextAlign('left').run();
+    },
+    isActive: () => props.editor.isActive('left'),
   },
   {
     icon: FormatAlignCenter,
     title: RichTextMenuItemEnum.ALIGN_CENTER,
-    action: () => props.editor.chain().focus().setTextAlign('center').run(),
+    action: () => {
+      if (props.editor.state.selection.node.type.name === 'tiptap-embed') {
+        return props.editor.chain().focus().setEmbedAlign('center').run();
+      }
+      return props.editor.chain().focus().setTextAlign('center').run();
+    },
     isActive: () => props.editor.isActive('center'),
   },
   {
     icon: FormatAlignRight,
     title: RichTextMenuItemEnum.ALIGN_RIGHT,
-    action: () => props.editor.chain().focus().setTextAlign('right').run(),
+    action: () => {
+      if (props.editor.state.selection.node.type.name === 'tiptap-embed') {
+        return props.editor.chain().focus().setEmbedAlign('flex-end').run();
+      }
+      return props.editor.chain().focus().setTextAlign('right').run();
+    },
     isActive: () => props.editor.isActive('right'),
   },
   {
@@ -250,11 +265,14 @@ const menuItemTemplate = [
   {
     icon: FormatClear,
     title: RichTextMenuItemEnum.CLEAR_FORMAT,
-    action: () => props.editor.chain()
+    action: () =>
+      props.editor
+        .chain()
         .focus()
         .clearNodes()
         .unsetAllMarks()
         .unsetTextAlign()
+        .unsetEmbedAlign()
         .run(),
   },
   {
