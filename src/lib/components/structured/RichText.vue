@@ -116,7 +116,7 @@ const editor = useEditor({
     }),
     Underline,
     Link.configure({
-      openOnClick: false,
+      openOnClick: true,
       autolink: true,
       linkOnPaste: true,
     }),
