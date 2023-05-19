@@ -149,7 +149,7 @@ const menuItemTemplate = [
       }
       props.editor.chain().focus().setEmbed(inputCode, type).run();
     },
-    isActive: () => props.editor.isActive('tiptap-embed'),
+    isActive: () => props.editor.isActive('tiptapEmbed'),
   },
   {
     icon: Youtube,
@@ -232,7 +232,7 @@ const menuItemTemplate = [
     icon: FormatAlignLeft,
     title: RichTextMenuItemEnum.ALIGN_LEFT,
     action: () => {
-      if (props.editor.state.selection.node.type.name === 'tiptap-embed') {
+      if (props.editor.state.selection.node.type.name === 'tiptapEmbed') {
         return props.editor.chain().focus().setEmbedAlign('flex-start').run();
       }
       return props.editor.chain().focus().setTextAlign('left').run();
@@ -243,7 +243,7 @@ const menuItemTemplate = [
     icon: FormatAlignCenter,
     title: RichTextMenuItemEnum.ALIGN_CENTER,
     action: () => {
-      if (props.editor.state.selection.node.type.name === 'tiptap-embed') {
+      if (props.editor.state.selection.node.type.name === 'tiptapEmbed') {
         return props.editor.chain().focus().setEmbedAlign('center').run();
       }
       return props.editor.chain().focus().setTextAlign('center').run();
@@ -254,7 +254,7 @@ const menuItemTemplate = [
     icon: FormatAlignRight,
     title: RichTextMenuItemEnum.ALIGN_RIGHT,
     action: () => {
-      if (props.editor.state.selection.node.type.name === 'tiptap-embed') {
+      if (props.editor.state.selection.node.type.name === 'tiptapEmbed') {
         return props.editor.chain().focus().setEmbedAlign('flex-end').run();
       }
       return props.editor.chain().focus().setTextAlign('right').run();
