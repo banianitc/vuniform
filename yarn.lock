@@ -730,8 +730,9 @@
   resolved "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-2.3.3.tgz#fbf80cc039b82ac21a1acb0f0478de8f61fbf600"
   integrity sha512-SmQLDyhz+6lGJhPELsBdzXGc+AcaT8stgkbiTFGpXPe8Tl1tJaBw1A6pxDqDuRsVkD8uscrkx3hA7QDOoKYtyw==
 
-"@vp/tiptap-embed@../tiptap-embeds":
+"@vp/tiptap-embed@git+https://gitlab.com/venuepilot-ng/tiptap-embeds.git":
   version "1.0.0"
+  resolved "git+https://gitlab.com/venuepilot-ng/tiptap-embeds.git#9b6ee5558061cc0edf8211e81fb3d49b2c041bf9"
 
 "@vue/compiler-core@3.2.37":
   version "3.2.37"
