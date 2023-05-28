@@ -10,7 +10,7 @@ export enum RichTextMenuItemEnum {
   CODE = 'Code',
   LINK = 'Link',
   IMAGE = 'Image',
-  EMBED = 'Embed',
+  EMBED = 'TiptapEmbed',
   YOUTUBE = 'Youtube',
   DIVIDER = 'Divider',
   HEADING_1 = 'Heading 1',

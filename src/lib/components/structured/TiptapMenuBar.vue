@@ -26,7 +26,11 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import MenuItem from './TiptapMenuItem.vue';
-import { RichTextMenuItemEnum, type RichTextMenuItemConfig } from '../../../util/enums';
+import {
+  RichTextMenuItemEnum,
+  type RichTextMenuItemConfig,
+} from '../../../util/enums';
+import { EmbedType } from '@vp/tiptap-embed';
 import type { Editor } from '@tiptap/vue-3';
 import {
   CodeTags,
@@ -52,7 +56,7 @@ import {
   Undo,
   Image,
   Iframe,
-  Youtube
+  Youtube,
 } from 'mdue';
 
 interface Props {
@@ -61,9 +65,12 @@ interface Props {
 }
 
 const emit = defineEmits<{
-  (e: 'mitem:click', payload: { type: RichTextMenuItemEnum, action: Function }): void
+  (
+    e: 'mitem:click',
+    payload: { type: RichTextMenuItemEnum; action: Function }
+  ): void;
 }>();
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
 const menuItemTemplate = [
   {
@@ -94,19 +101,24 @@ const menuItemTemplate = [
     icon: LinkVariant,
     title: RichTextMenuItemEnum.LINK,
     action: () => {
-      const previousUrl = props.editor.getAttributes('link').href
-      const url = window.prompt('URL', previousUrl)
+      const previousUrl = props.editor.getAttributes('link').href;
+      const url = window.prompt('URL', previousUrl);
 
       if (url === null) {
-        return
+        return;
       }
 
       if (url === '') {
-        props.editor.chain().focus().extendMarkRange('link').unsetLink().run()
-        return
+        props.editor.chain().focus().extendMarkRange('link').unsetLink().run();
+        return;
       }
 
-      props.editor.chain().focus().extendMarkRange('link').setLink({href: url}).run()
+      props.editor
+        .chain()
+        .focus()
+        .extendMarkRange('link')
+        .setLink({ href: url })
+        .run();
     },
     isActive: () => props.editor.isActive('highlight'),
   },
@@ -126,25 +138,18 @@ const menuItemTemplate = [
   {
     icon: Iframe,
     title: RichTextMenuItemEnum.EMBED,
-    action: (url?: string, config = {}) => {
-      let inputUrl = url;
+    action: (url?: string, type?: EmbedType) => {
+      let inputCode = url;
       if (!url) {
-        let previousIframe = props.editor.getAttributes("iframe").src;
-        inputUrl = window.prompt(
-          "Please enter link for embed:",
-          previousIframe
-        );
-        if (inputUrl === null) {
+        let previousIframe: string;
+        inputCode = window.prompt('Please enter embed code:', previousIframe);
+        if (inputCode === null) {
           return;
         }
       }
-      props.editor
-        .chain()
-        .focus()
-        .setIframe({ src: inputUrl, ...config })
-        .run();
+      props.editor.chain().focus().setEmbed(inputCode, type).run();
     },
-    isActive: () => props.editor.isActive("iframe"),
+    isActive: () => props.editor.isActive('tiptapEmbed'),
   },
   {
     icon: Youtube,
@@ -152,8 +157,8 @@ const menuItemTemplate = [
     action: (url?: string, config = {}) => {
       let inputUrl = url;
       if (!url) {
-        let previousIframe = props.editor.getAttributes("youtube").src;
-        inputUrl = window.prompt("Please enter youtube link:", previousIframe);
+        let previousIframe = props.editor.getAttributes('youtube').src;
+        inputUrl = window.prompt('Please enter youtube link:', previousIframe);
         if (inputUrl === null) {
           return;
         }
@@ -164,7 +169,7 @@ const menuItemTemplate = [
         .setYoutubeVideo({ src: inputUrl, ...config })
         .run();
     },
-    isActive: () => props.editor.isActive("youtube"),
+    isActive: () => props.editor.isActive('youtube'),
   },
   {
     title: RichTextMenuItemEnum.DIVIDER,
@@ -178,13 +183,15 @@ const menuItemTemplate = [
   {
     icon: FormatHeader_1,
     title: RichTextMenuItemEnum.HEADING_1,
-    action: () => props.editor.chain().focus().toggleHeading({ level: 1 }).run(),
+    action: () =>
+      props.editor.chain().focus().toggleHeading({ level: 1 }).run(),
     isActive: () => props.editor.isActive('heading', { level: 1 }),
   },
   {
     icon: FormatHeader_2,
     title: RichTextMenuItemEnum.HEADING_2,
-    action: () => props.editor.chain().focus().toggleHeading({ level: 2 }).run(),
+    action: () =>
+      props.editor.chain().focus().toggleHeading({ level: 2 }).run(),
     isActive: () => props.editor.isActive('heading', { level: 2 }),
   },
   {
@@ -224,19 +231,34 @@ const menuItemTemplate = [
   {
     icon: FormatAlignLeft,
     title: RichTextMenuItemEnum.ALIGN_LEFT,
-    action: () => props.editor.chain().focus().setTextAlign('left').run(),
-    isActive: () => props.editor.isActive("left"),
+    action: () => {
+      if (props.editor.state.selection?.node?.type?.name === 'tiptapEmbed') {
+        return props.editor.chain().focus().setEmbedAlign('flex-start').run();
+      }
+      return props.editor.chain().focus().setTextAlign('left').run();
+    },
+    isActive: () => props.editor.isActive('left'),
   },
   {
     icon: FormatAlignCenter,
     title: RichTextMenuItemEnum.ALIGN_CENTER,
-    action: () => props.editor.chain().focus().setTextAlign('center').run(),
+    action: () => {
+      if (props.editor.state.selection?.node?.type?.name === 'tiptapEmbed') {
+        return props.editor.chain().focus().setEmbedAlign('center').run();
+      }
+      return props.editor.chain().focus().setTextAlign('center').run();
+    },
     isActive: () => props.editor.isActive('center'),
   },
   {
     icon: FormatAlignRight,
     title: RichTextMenuItemEnum.ALIGN_RIGHT,
-    action: () => props.editor.chain().focus().setTextAlign('right').run(),
+    action: () => {
+      if (props.editor.state.selection?.node?.type?.name === 'tiptapEmbed') {
+        return props.editor.chain().focus().setEmbedAlign('flex-end').run();
+      }
+      return props.editor.chain().focus().setTextAlign('right').run();
+    },
     isActive: () => props.editor.isActive('right'),
   },
   {
@@ -248,11 +270,14 @@ const menuItemTemplate = [
   {
     icon: FormatClear,
     title: RichTextMenuItemEnum.CLEAR_FORMAT,
-    action: () => props.editor.chain()
+    action: () =>
+      props.editor
+        .chain()
         .focus()
         .clearNodes()
         .unsetAllMarks()
         .unsetTextAlign()
+        .unsetEmbedAlign()
         .run(),
   },
   {
@@ -268,7 +293,7 @@ const menuItemTemplate = [
     title: RichTextMenuItemEnum.REDO,
     action: () => props.editor.chain().focus().redo().run(),
   },
-]
+];
 
 const menuItemsCalculated = computed(() => {
   return props.menuItems.map((x) => {

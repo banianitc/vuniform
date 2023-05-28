@@ -2,7 +2,7 @@
   <div class='vnf-container vnf-mx-auto'>
     <h1>Vuniform demo</h1>
 
-    <div class='vnf-mx-auto vnf-my-8 vnf-w-1/3'>
+    <div class='vnf-mx-auto vnf-my-8 vnf-w-1/2'>
       <Form
           :form-id='formId'
           :loading='loading'
