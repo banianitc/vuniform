@@ -125,13 +125,19 @@ const menuItemTemplate = [
   {
     icon: Image,
     title: RichTextMenuItemEnum.IMAGE,
-    action: () => {
-      let previousImg = props.editor.getAttributes('image').src;
-      const url = window.prompt('Please enter image URL:', previousImg);
-      if (url === null) {
-        return;
+    action: (url?: string) => {
+      let inputUrl = url;
+      if (!url) {
+        let previousIframe = props.editor.getAttributes('image').src;
+        inputUrl = window.prompt(
+          'Please enter image URL:',
+          previousIframe
+        );
+        if (inputUrl === null) {
+          return;
+        }
       }
-      props.editor.chain().focus().setImage({ src: url }).run();
+      props.editor.chain().focus().setImage({ src: inputUrl }).run();
     },
     isActive: () => props.editor.isActive('image'),
   },
