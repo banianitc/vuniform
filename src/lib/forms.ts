@@ -19,7 +19,10 @@ import StructuredCheckbox from './components/structured/Checkbox.vue';
 import StructuredRadio from './components/structured/Radio.vue';
 import StructuredTokenInput from './components/structured/TokenInput.vue';
 
+// Add comments to retain the unused imports
+// @ts-ignore
 import { RichTextMenuItemEnum, type RichTextMenuItemConfig } from '../util/enums';
+// @ts-ignore
 import { EmbedType as RichTextEmbedTypeEnum } from '@vp/tiptap-embed';
 
 import {
@@ -52,7 +55,11 @@ export {
   StructuredTextarea,
   StructuredRichText,
 
+  // Export the unused imports
+  // @ts-ignore
   RichTextMenuItemEnum,
+  // @ts-ignore
   RichTextMenuItemConfig,
+  // @ts-ignore
   RichTextEmbedTypeEnum
 };
