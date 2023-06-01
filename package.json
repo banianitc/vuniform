@@ -42,7 +42,7 @@
   "main": "dist/vuniform.es.js",
   "types": "dist/forms.d.ts",
   "files": [
-    "dist/**/*.d.ts",
+    "dist/**/*.d.ts"
   ],
   "devDependencies": {
     "@microsoft/api-extractor": "^7.28.6",
