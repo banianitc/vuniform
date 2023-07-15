@@ -100,24 +100,25 @@ const menuItemTemplate = [
   {
     icon: LinkVariant,
     title: RichTextMenuItemEnum.LINK,
-    action: () => {
-      const previousUrl = props.editor.getAttributes('link').href;
-      const url = window.prompt('URL', previousUrl);
-
-      if (url === null) {
-        return;
+    action: (url?: string) => {
+      let inputUrl = url;
+      if (!url) {
+        const previousUrl = props.editor.getAttributes("link").href;
+        inputUrl = window.prompt("URL", previousUrl);
+        if (url === null) {
+          return;
+        }
       }
-
-      if (url === '') {
-        props.editor.chain().focus().extendMarkRange('link').unsetLink().run();
+      if (inputUrl === "") {
+        props.editor.chain().focus().extendMarkRange("link").unsetLink().run();
         return;
       }
 
       props.editor
         .chain()
         .focus()
-        .extendMarkRange('link')
-        .setLink({ href: url })
+        .extendMarkRange("link")
+        .setLink({ href: inputUrl })
         .run();
     },
     isActive: () => props.editor.isActive('highlight'),
