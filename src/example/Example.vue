@@ -1,11 +1,12 @@
 <template>
-  <div class='vnf-container vnf-mx-auto'>
+  <div class='vnf-container vnf-mx-auto vnf-mb-32'>
     <h1>Vuniform demo</h1>
 
     <div class='vnf-mx-auto vnf-my-8 vnf-w-1/2'>
       <Form
           :form-id='formId'
           :loading='loading'
+          :initial-values='defaults'
           @submit.prevent='noop'
       >
 
@@ -25,7 +26,6 @@
               input-id='password'
           />
         </div>
-
 
         <hr>
 
@@ -98,14 +98,32 @@
           <p>Hidden input</p>
           <HiddenInput input-id='hidden' />
         </div>
+
+        <div>
+          <p>Fields for <code>customScope</code></p>
+          <FieldsFor name='customScope'>
+            <p>First level</p>
+            <Input label='Input with scope' input-id='scoped_child' />
+
+            <FieldsFor name='deeperScope'>
+              <p>Second level</p>
+              <Input input-id='twice_scoped' />
+            </FieldsFor>
+          </FieldsFor>
+        </div>
       </Form>
+
+      <div class='vnf-my-8'>
+        <h3>Form values:</h3>
+        <pre>{{ formValues }}</pre>
+      </div>
     </div>
   </div>
 
 </template>
 
 <script setup lang='ts'>
-import { Form, useFormsStore, StructuredInput, StructuredPassword } from '../lib/forms';
+import { Form, useFormsStore, StructuredInput, StructuredPassword, Input } from '../lib/forms';
 import Dropdown from '../lib/components/structured/Dropdown.vue';
 import Checkbox from '../lib/components/structured/Checkbox.vue';
 import Radio from '../lib/components/structured/Radio.vue';
@@ -114,6 +132,8 @@ import Textarea from '../lib/components/structured/Textarea.vue';
 import { StructuredRichText } from '../lib/forms';
 import { DateTimeInput, HiddenInput } from '../lib/forms';
 import DateTimePicker from '../components/DateTimePicker.vue';
+import FieldsFor from '@/components/FieldsFor.vue';
+import { computed } from 'vue';
 
 const formsStore = useFormsStore();
 const formId = 'vuniform-demo';
@@ -130,4 +150,16 @@ const radioOptions = [
   { name: 'Option 1', value: 'opt_1' },
   { name: 'Option 2', value: 'opt_2' },
 ]
+
+const formValues = computed(() => JSON.stringify(formsStore.formGetValues(formId), null, '  '))
+
+const defaults = {
+  text_input_1: "I'm a default",
+  customScope: {
+    scoped_child: 'Default scoped child',
+    deeperScope: {
+      twice_scoped: 'Twice scoped child',
+    }
+  }
+}
 </script>

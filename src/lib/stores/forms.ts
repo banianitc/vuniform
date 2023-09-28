@@ -30,12 +30,14 @@ export interface FieldConfiguration {
   default?: unknown;
 }
 
+type FormFields = {
+  [key: string]: FormField;
+};
+
 export interface Form {
   config: FormConfiguration;
   errors?: string[];
-  fields: {
-    [key: string]: FormField;
-  };
+  fields: FormFields;
 }
 
 export interface FormField {
@@ -74,6 +76,44 @@ interface InitFormFieldPayload {
   name: string;
   config: FieldConfiguration;
 }
+
+const SCOPE_SPARATOR = '.';
+
+export const scopedName = (name: string, scope: string[] = []) => [...scope, name].join(SCOPE_SPARATOR);
+
+const setDeepValue = <T extends object>(obj: T, keyList: string[], value: any): T => {
+  const [currentKey, ...rest] = keyList;
+
+  if (rest.length == 0) {
+    return {
+      ...obj,
+      [currentKey]: value,
+    }
+  }
+
+  const childObj = obj[currentKey] || {};
+
+  return {
+    ...obj,
+    [currentKey]: setDeepValue(childObj, rest, value)
+  }
+}
+
+const fieldToObjectReducer = <T extends object>(acc: T, [k, v]: [string, any]): T => {
+  const scopedName = k.split(SCOPE_SPARATOR);
+
+  return setDeepValue(acc, scopedName, v.value);
+};
+
+const initalOrDefault = (initialValues: object | undefined, path: string, fallback?: unknown): unknown => {
+  if (!initialValues) {
+    return fallback;
+  }
+
+  const value = path.split(SCOPE_SPARATOR).reduce((obj, key) => obj?.[key], initialValues)
+
+  return typeof value === "undefined" ? fallback : value
+};
 
 export const useFormsStore = defineStore('vuniform', {
   state: (): FormsState => ({
@@ -116,12 +156,7 @@ export const useFormsStore = defineStore('vuniform', {
 
     formGetValues(state: FormsState): <T>(formId: FormId) => T {
       return <T>(formId: FormId) =>
-        Object.entries(state.forms[formId].fields).reduce((acc, [k, v]) => {
-          return {
-            ...acc,
-            [k]: v.value,
-          };
-        }, {}) as T;
+        Object.entries(state.forms?.[formId]?.fields || {}).reduce(fieldToObjectReducer, {}) as T;
     },
   },
   actions: {
@@ -155,7 +190,7 @@ export const useFormsStore = defineStore('vuniform', {
     INIT_FORM_FIELD({ formId, name, config }: InitFormFieldPayload) {
       this.forms[formId].fields[name] = <FormField>{
         config: { ...config },
-        value: typeof this.forms[formId].config?.initialValues?.[name] === "undefined" ? config.default : this.forms[formId].config?.initialValues?.[name],
+        value: initalOrDefault(this.forms[formId].config?.initialValues, name, config.default),
         dirty: false,
       };
     },
