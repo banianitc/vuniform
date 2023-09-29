@@ -178,7 +178,7 @@ export const useFormsStore = defineStore('vuniform', {
     RESET_FIELD_VALUES(formId: FormId) {
       const fields = Object.keys(this.forms[formId].fields);
       for (const field of fields) {
-        this.forms[formId].fields[field].value = this.forms[formId].config.initialValues?.[field];
+        this.forms[formId].fields[field].value = initalOrDefault(this.forms[formId].config?.initialValues, field);
         this.forms[formId].fields[field].dirty = false;
       }
     },
