@@ -2,10 +2,10 @@
   <Field
       v-bind='{ inputId, overrideValue, errors, forceError }'
       ref='fieldRef'
-      v-slot='{ uid, value, hasValue, hasError, errors }'
+      v-slot='{ uid, value, hasValue, hasError, errors, updateModelValue }'
   >
-    <slot v-bind='{ uid, options, value, displayValue, hasValue, hasError, errors, showClearButton, clearText, onChange, onClear }'>
-      <Listbox @update:modelValue='onChange'>
+    <slot v-bind='{ uid, options, value, displayValue, hasValue, hasError, errors, showClearButton, clearText, onChange, onClear, updateModelValue }'>
+      <Listbox @update:modelValue='onChange($event, updateModelValue)'>
         <ListboxButton
             class='vnf-dropdown-button'
             v-slot='{ open }'
@@ -15,7 +15,7 @@
               type='button'
               class='vnf-dropdown-clear-btn'
               :title='clearText'
-              @click.prevent.stop='onClear'
+              @click.prevent.stop='onClear(updateModelValue)'
           >
             <Close />
           </button>
@@ -73,12 +73,13 @@ const props = withDefaults(defineProps<Props>(), {
   errors: () => [],
 })
 
-const onChange = (value?: unknown) => {
+const onChange = (value: unknown, updateCb: (v: any) => void) => {
+  console.log('on change', updateCb)
   // TODO: Implement multiple for real
   const v = props.multiple ? (value && [value] || []) : value
   emit('update:modelValue', v)
-  if (fieldRef.value?.updateModelValue) {
-    fieldRef.value.updateModelValue(value);
+  if (updateCb) {
+    updateCb(value);
   }
 }
 
@@ -99,7 +100,7 @@ const hasValue = computed(() => {
 })
 const showClearButton = computed(() => props.clearable && hasValue.value)
 
-const onClear = () => {
-  onChange(undefined)
+const onClear = (updateCb: (v: any) => void) => {
+  onChange(undefined, updateCb)
 }
 </script>

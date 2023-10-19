@@ -2,7 +2,7 @@
   <Field
       v-bind='props'
       ref='fieldRef'
-      v-slot='{ uid, value, hasValue, hasError, errors }'
+      v-slot='{ uid, value, hasValue, hasError, errors, updateModelValue }'
   >
     <slot v-bind='{ uid, value, hasValue, hasError, errors, onInput }'>
       <textarea
@@ -12,7 +12,7 @@
           :value='value'
           :placeholder='placeholder'
           ref='inputRef'
-          @input='onInput'
+          @input='onInput($event, updateModelValue)'
       />
     </slot>
   </Field>
@@ -42,11 +42,11 @@ const props = withDefaults(defineProps<Props>(), {
   placeholder: ' ',
 });
 
-const onInput = (event: any) => {
+const onInput = (event: any, updateCb: (v: any) => void) => {
   const value = event.target.value
   emit('update:modelValue', value);
-  if (fieldRef.value?.updateModelValue) {
-    fieldRef.value.updateModelValue(value);
+  if (updateCb) {
+    updateCb(value);
   }
 }
 

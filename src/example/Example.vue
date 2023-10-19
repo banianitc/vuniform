@@ -13,17 +13,9 @@
         <h2 class='vnf-text-lg vnf-mb-8'>Structured</h2>
 
         <div class='vnf-py-2'>
-          <StructuredInput
-              label='Structured Text Input'
-              input-id='text_input_1'
-          />
-        </div>
-
-        <div class='vnf-py-2'>
-          <StructuredPassword
-              label='Structured Password Input'
-              :showable='true'
-              input-id='password'
+          <Input
+            label='Text Input'
+            input-id='text_input_1'
           />
         </div>
 
@@ -67,14 +59,6 @@
         </div>
 
         <div class='vnf-py-2'>
-          <StructuredRichText
-              label='Rich Text area'
-              input-id='richtext'
-              placeholder='Rich text placeholder'
-          />
-        </div>
-
-        <div class='vnf-py-2'>
           <DateTimeInput
               label='Date and time'
               input-id='datetime'
@@ -99,17 +83,20 @@
           <HiddenInput input-id='hidden' />
         </div>
 
-        <div>
-          <p>Fields for <code>customScope</code></p>
-          <FieldsFor name='customScope'>
-            <p>First level</p>
-            <Input label='Input with scope' input-id='scoped_child' />
+        <p>Fields for <code>customScope</code></p>
+        <FieldsFor name='customScope'>
+          <p>First level</p>
+          <Input label='Input with scope' input-id='scoped_child' />
 
-            <FieldsFor name='deeperScope'>
-              <p>Second level</p>
-              <Input input-id='twice_scoped' />
-            </FieldsFor>
+          <FieldsFor name='deeperScope'>
+            <p>Second level</p>
+            <Input input-id='twice_scoped' />
           </FieldsFor>
+        </FieldsFor>
+
+        <div>
+          <p>Fields for plain list</p>
+          <Input input-id='listed' list />
         </div>
       </Form>
 
@@ -124,16 +111,17 @@
 
 <script setup lang='ts'>
 import { Form, useFormsStore, StructuredInput, StructuredPassword, Input } from '../lib/forms';
-import Dropdown from '../lib/components/structured/Dropdown.vue';
-import Checkbox from '../lib/components/structured/Checkbox.vue';
-import Radio from '../lib/components/structured/Radio.vue';
-import TokenInput from '../lib/components/structured/TokenInput.vue';
-import Textarea from '../lib/components/structured/Textarea.vue';
+import Dropdown from '../lib/components/Dropdown.vue';
+import Checkbox from '../lib/components/Checkbox.vue';
+import Radio from '../lib/components/Radio.vue';
+import TokenInput from '../lib/components/TokenInput.vue';
+import Textarea from '../lib/components/Textarea.vue';
 import { StructuredRichText } from '../lib/forms';
 import { DateTimeInput, HiddenInput } from '../lib/forms';
 import DateTimePicker from '../components/DateTimePicker.vue';
 import FieldsFor from '@/components/FieldsFor.vue';
 import { computed } from 'vue';
+import FieldList from '@/components/FieldList.vue';
 
 const formsStore = useFormsStore();
 const formId = 'vuniform-demo';
@@ -160,6 +148,14 @@ const defaults = {
     deeperScope: {
       twice_scoped: 'Twice scoped child',
     }
-  }
+  },
+  listed: [
+      'l1',
+      'l2',
+  ],
+  fieldList: [
+    {field1: 'F1', field2: 'F2'},
+    {field1: 'G1', field2: 'G2'}
+  ]
 }
 </script>

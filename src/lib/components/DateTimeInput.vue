@@ -2,7 +2,7 @@
   <Field
       v-bind='{ inputId, overrideValue, errors, forceError }'
       ref='fieldRef'
-      v-slot='{ uid, value, hasValue, hasError, errors, inputId }'
+      v-slot='{ uid, value, hasValue, hasError, errors, inputId, updateModelValue }'
   >
     <div
         :id='uid'
@@ -58,7 +58,8 @@
 
     <slot
         name='dateTimePicker'
-        v-bind='{ value, showDateTimePicker, hideTimePicker, uid, autoSelect, onUpdate, onClose }'
+        v-bind='{ value, showDateTimePicker, hideTimePicker, uid, autoSelect, onClose }'
+        :onUpdate='(v: string) => onUpdate(v, updateModelValue)'
     />
   </Field>
 </template>
@@ -96,14 +97,14 @@ const props = withDefaults(defineProps<Props>(), {
   errors: () => [],
 });
 
-const onUpdate = (val: string) => {
+const onUpdate = (val: string, updateCb: (v: any) => void) => {
   const value = DateTime.fromISO(val)
   const storeValue = props.hideTimePicker ? value.toISODate() : value.toISO()
 
   emit('update:modelValue', storeValue);
   onClose();
-  if (fieldRef.value?.updateModelValue) {
-    fieldRef.value.updateModelValue(storeValue);
+  if (updateCb) {
+    updateCb(storeValue);
   }
 };
 

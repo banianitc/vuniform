@@ -36,7 +36,7 @@
     "pinia": "^2.0.14",
     "postcss": "^8.4.16",
     "tailwindcss": "^3.1.8",
-    "vue": "^3.2"
+    "vue": "^3.3"
   },
   "peerDependencies": {},
   "main": "dist/vuniform.es.js",

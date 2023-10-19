@@ -2,10 +2,10 @@
   <Field
       v-bind='{ inputId, overrideValue, errors, forceError }'
       ref='fieldRef'
-      v-slot='{ uid, value, hasValue, hasError, errors, inputId }'
+      v-slot='{ uid, value, hasValue, hasError, errors, inputId, updateModelValue }'
   >
     <slot v-bind='{ uid, options, value, hasValue, hasError, errors, inputId, onChange }'>
-      <RadioGroup :model-value='value' @update:modelValue='onChange'>
+      <RadioGroup :model-value='value' @update:modelValue='onChange($event, updateModelValue)'>
         <RadioGroupOption
             v-for='opt in options'
             :key='opt'
@@ -45,10 +45,10 @@ const props = withDefaults(defineProps<Props>(), {
   errors: () => [],
 })
 
-const onChange = (value: string) => {
+const onChange = (value: string, updateCb: (v: any) => void) => {
   emit('update:modelValue', value)
-  if (fieldRef.value?.updateModelValue) {
-    fieldRef.value.updateModelValue(value);
+  if (updateCb) {
+    updateCb(value);
   }
 }
 </script>

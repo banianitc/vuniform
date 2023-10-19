@@ -2,10 +2,10 @@
   <Field
       v-bind='{ inputId, overrideValue, errors, forceError }'
       ref='fieldRef'
-      v-slot='{ uid, value, hasValue, hasError, errors }'
+      v-slot='{ uid, value, hasValue, hasError, errors, updateModelValue }'
   >
     <slot v-bind='{checked, toggle, hasError, errors}'>
-      <input type='checkbox' @change='toggle' :checked='checked'>
+      <input type='checkbox' @change='toggle(updateModelValue)' :checked='checked'>
     </slot>
   </Field>
 </template>
@@ -38,11 +38,11 @@ const props = withDefaults(defineProps<Props>(), {
 const value = computed(() => fieldRef.value?.value);
 const checked = computed(() => value.value === props.trueValue)
 
-const toggle = () => {
+const toggle = (updateCb: (v: any) => void) => {
   const value =  checked.value ? props.falseValue : props.trueValue;
   emit('update:modelValue', value)
-  if (fieldRef.value?.updateModelValue) {
-    fieldRef.value.updateModelValue(value);
+  if (updateCb) {
+    updateCb(value);
   }
 }
 </script>

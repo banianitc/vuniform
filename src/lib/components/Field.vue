@@ -1,5 +1,21 @@
 <template>
+  <template
+    v-if='list'
+    v-for='(v, idx) in internalValue'
+  >
+    <slot
+      :value='v'
+      :errors='allErrors'
+      :updateModelValue='(value) => updateListModelValue(idx)(value)'
+      :uid='`${uid}-${idx}`'
+      :hasError='hasError'
+      :hasValue='hasValue'
+      :inputId='`${scopedFieldId}[${idx}]`'
+    />
+  </template>
+
   <slot
+    v-else
     :value='internalValue'
     :errors='allErrors'
     :updateModelValue='updateModelValue'
@@ -26,6 +42,7 @@ interface Props {
   overrideValue?: string;
   errors?: string[];
   forceError?: boolean;
+  list?: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {
   errors: () => [],
@@ -46,6 +63,10 @@ const hasError = computed(() => props.forceError || allErrors.value.length)
 
 const updateModelValue = (value: any) => {
   formsStore.STAGE_FIELD_CHANGE({value, query: {formId, field: scopedFieldId.value}})
+}
+
+const updateListModelValue = (idx: number) => (value: any) => {
+  formsStore.STAGE_FIELD_CHANGE({value, query: {formId, field: scopedFieldId.value, index: idx}})
 }
 
 watch(() => props.modelValue, (newVal: any) => {

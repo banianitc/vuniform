@@ -28,6 +28,7 @@ export interface FormConfiguration {
 export interface FieldConfiguration {
   validators?: any;
   default?: unknown;
+  list?: boolean;
 }
 
 type FormFields = {
@@ -59,6 +60,7 @@ export default FormsState;
 interface FieldQuery {
   formId: FormId;
   field: string;
+  index?: number;
 }
 
 interface StageInputParams {
@@ -195,8 +197,13 @@ export const useFormsStore = defineStore('vuniform', {
       };
     },
 
-    STAGE_FIELD_CHANGE({ value, query: { formId, field } }: StageInputParams) {
-      this.forms[formId].fields[field].value = value;
+    STAGE_FIELD_CHANGE({ value, query: { formId, field, index } }: StageInputParams) {
+      if (typeof index !== 'undefined') {
+        this.forms[formId].fields[field].value ||= [];
+        this.forms[formId].fields[field].value[index] = value;
+      } else {
+        this.forms[formId].fields[field].value = value;
+      }
       this.forms[formId].fields[field].dirty = true;
       this.forms[formId].fields[field].errors = undefined;
     },
