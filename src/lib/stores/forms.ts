@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { flatten, unflatten } from '../../util/flatten';
 
 export type FormId = string;
 
@@ -29,6 +30,7 @@ export interface FieldConfiguration {
   validators?: any;
   default?: unknown;
   list?: boolean;
+  isObject?: boolean;
 }
 
 type FormFields = {
@@ -158,20 +160,23 @@ export const useFormsStore = defineStore('vuniform', {
 
     formGetValues(state: FormsState): <T>(formId: FormId) => T {
       return <T>(formId: FormId) =>
-        Object.entries(state.forms?.[formId]?.fields || {}).reduce(fieldToObjectReducer, {}) as T;
+        unflatten(Object.fromEntries(Object.entries(state.forms?.[formId]?.fields || {}).map(([k, v]) => [k, v.value]))) as T;
     },
   },
   actions: {
     INIT_FORM({ formId, config }: InitFormPayload) {
       this.forms[formId] = {
-        config,
+        config: {
+          ...config,
+          initialValues: flatten(config.initialValues),
+        },
         fields: {},
         errors: [],
       };
     },
 
     SET_INITIAL_VALUES({ formId, values, clearDirty }: { formId: FormId; values: object, clearDirty?: boolean }) {
-      this.forms[formId].config.initialValues = values;
+      this.forms[formId].config.initialValues = flatten(values);
       if (clearDirty) {
         this.CLEAR_FORM_DIRTY(formId);
       }
@@ -189,10 +194,34 @@ export const useFormsStore = defineStore('vuniform', {
       delete this.forms[formId];
     },
 
+    INIT_FIELD_LIST({ formId, name, config}: InitFormFieldPayload) {
+      const value = initalOrDefault(this.forms[formId].config?.initialValues, name, config.default)
+      if (!Array.isArray(value)) {
+        return;
+      }
+
+      console.log('INIT values:', value)
+
+      for(let i = 0; i < value.length; i++) {
+        const fieldValue = value[i]
+        console.log('value[i]:', fieldValue)
+        const itemFieldName = `${name}[${i}]`;
+        console.log('field name:', itemFieldName)
+        this.forms[formId].fields[itemFieldName] = <FormField>{
+          config: { ...config },
+          value: fieldValue,
+          dirty: false,
+        };
+      }
+    },
+
     INIT_FORM_FIELD({ formId, name, config }: InitFormFieldPayload) {
+      console.log('initializing:', name)
+      const value = initalOrDefault(this.forms[formId].config?.initialValues, name, config.default)
+
       this.forms[formId].fields[name] = <FormField>{
         config: { ...config },
-        value: initalOrDefault(this.forms[formId].config?.initialValues, name, config.default),
+        value: value,
         dirty: false,
       };
     },

@@ -95,8 +95,11 @@
         </FieldsFor>
 
         <div>
-          <p>Fields for plain list</p>
-          <Input input-id='listed' list />
+          <p>Field list:</p>
+          <FieldList name='fieldList'>
+            <Input input-id='field1' />
+            <Input input-id='field2' />
+          </FieldList>
         </div>
       </Form>
 
