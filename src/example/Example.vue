@@ -96,10 +96,12 @@
 
         <div>
           <p>Field list:</p>
-          <FieldList name='fieldList'>
-            <Input input-id='field1' />
-            <Input input-id='field2' />
-          </FieldList>
+          <FieldsFor name='nestedList'>
+            <FieldList name='fieldList'>
+              <Input input-id='field1' />
+              <Input input-id='field2' />
+            </FieldList>
+          </FieldsFor>
         </div>
       </Form>
 
@@ -156,9 +158,11 @@ const defaults = {
       'l1',
       'l2',
   ],
-  fieldList: [
-    {field1: 'F1', field2: 'F2'},
-    {field1: 'G1', field2: 'G2'}
-  ]
+  nestedList: {
+    fieldList: [
+      { field1: 'F1', field2: 'F2' },
+      { field1: 'G1', field2: 'G2' }
+    ]
+  },
 }
 </script>

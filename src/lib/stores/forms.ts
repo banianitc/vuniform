@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import { flatten, unflatten } from '../../util/flatten';
+import { match } from 'assert';
 
 export type FormId = string;
 
@@ -114,9 +115,19 @@ const initalOrDefault = (initialValues: object | undefined, path: string, fallba
     return fallback;
   }
 
-  const value = path.split(SCOPE_SPARATOR).reduce((obj, key) => obj?.[key], initialValues)
+  const value = initialValues[path]
+  if (typeof value !== 'undefined') {
+    return value
+  }
+  const matcher = new RegExp(`${path}[\.\[]`);
 
-  return typeof value === "undefined" ? fallback : value
+  const matches = Object.entries(initialValues).filter(([k, v]) => matcher.exec(k) !== null)
+
+  if (matches.length === 0) {
+    return fallback;
+  }
+
+  return Object.fromEntries(matches)
 };
 
 export const useFormsStore = defineStore('vuniform', {
@@ -159,8 +170,11 @@ export const useFormsStore = defineStore('vuniform', {
     },
 
     formGetValues(state: FormsState): <T>(formId: FormId) => T {
-      return <T>(formId: FormId) =>
-        unflatten(Object.fromEntries(Object.entries(state.forms?.[formId]?.fields || {}).map(([k, v]) => [k, v.value]))) as T;
+      return <T>(formId: FormId) => Object.fromEntries(Object.entries(state.forms?.[formId]?.fields || {}).map(([k, v]) => [k, v.value])) as T;
+    },
+
+    formGetValuesObj(state: FormsState): <T>(formId: FormId) => T {
+      return <T>(formId: FormId) => unflatten(this.formGetValues(formId)) as T;
     },
   },
   actions: {
@@ -195,28 +209,14 @@ export const useFormsStore = defineStore('vuniform', {
     },
 
     INIT_FIELD_LIST({ formId, name, config}: InitFormFieldPayload) {
-      const value = initalOrDefault(this.forms[formId].config?.initialValues, name, config.default)
-      if (!Array.isArray(value)) {
-        return;
-      }
+      const value = initalOrDefault(this.forms[formId].config?.initialValues, name, config.default) as object;
 
-      console.log('INIT values:', value)
-
-      for(let i = 0; i < value.length; i++) {
-        const fieldValue = value[i]
-        console.log('value[i]:', fieldValue)
-        const itemFieldName = `${name}[${i}]`;
-        console.log('field name:', itemFieldName)
-        this.forms[formId].fields[itemFieldName] = <FormField>{
-          config: { ...config },
-          value: fieldValue,
-          dirty: false,
-        };
+      for (const k in value) {
+        this.INIT_FORM_FIELD({formId, name: k, config})
       }
     },
 
     INIT_FORM_FIELD({ formId, name, config }: InitFormFieldPayload) {
-      console.log('initializing:', name)
       const value = initalOrDefault(this.forms[formId].config?.initialValues, name, config.default)
 
       this.forms[formId].fields[name] = <FormField>{
