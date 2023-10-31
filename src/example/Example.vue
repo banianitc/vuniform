@@ -95,8 +95,21 @@
         </FieldsFor>
 
         <div>
-          <p>Fields for plain list</p>
-          <Input input-id='listed' list />
+          <p>Field list:</p>
+          <FieldsFor name='nestedList'>
+            <FieldList name='fieldList'>
+              <div class='vnf-flex'>
+                <div>
+                  <p>Field 1</p>
+                  <Input input-id='field1' />
+                </div>
+                <div>
+                  <p>Field 2</p>
+                  <Input input-id='field2' />
+                </div>
+              </div>
+            </FieldList>
+          </FieldsFor>
         </div>
       </Form>
 
@@ -104,19 +117,30 @@
         <h3>Form values:</h3>
         <pre>{{ formValues }}</pre>
       </div>
+
+      <div class='vnf-py-8 vnf-my-8 border-t'>
+        <h2 class='vnf-my-4 vnf-text-xl'>Form composable</h2>
+        <Form :form-id='scopedFormId'>
+          <Input input-id='composed' />
+        </Form>
+
+        <div class='vnf-my-8'>
+          <h3>Composed form values:</h3>
+          <pre>{{ formGetValues() }}</pre>
+        </div>
+      </div>
     </div>
   </div>
 
 </template>
 
 <script setup lang='ts'>
-import { Form, useFormsStore, StructuredInput, StructuredPassword, Input } from '../lib/forms';
+import { Form, useFormsStore, useFormsStoreComposable, StructuredInput, StructuredPassword, Input } from '../lib/forms';
 import Dropdown from '../lib/components/Dropdown.vue';
 import Checkbox from '../lib/components/Checkbox.vue';
 import Radio from '../lib/components/Radio.vue';
 import TokenInput from '../lib/components/TokenInput.vue';
 import Textarea from '../lib/components/Textarea.vue';
-import { StructuredRichText } from '../lib/forms';
 import { DateTimeInput, HiddenInput } from '../lib/forms';
 import DateTimePicker from '../components/DateTimePicker.vue';
 import FieldsFor from '@/components/FieldsFor.vue';
@@ -126,6 +150,12 @@ import FieldList from '@/components/FieldList.vue';
 const formsStore = useFormsStore();
 const formId = 'vuniform-demo';
 const loading = false;
+
+const {
+  formsStore: scopedStore,
+  formId: scopedFormId,
+  formGetValues,
+} = useFormsStoreComposable('vuniform-scoped-demo');
 
 const noop = () => null;
 
@@ -153,9 +183,11 @@ const defaults = {
       'l1',
       'l2',
   ],
-  fieldList: [
-    {field1: 'F1', field2: 'F2'},
-    {field1: 'G1', field2: 'G2'}
-  ]
+  nestedList: {
+    fieldList: [
+      { field1: 'F1', field2: 'F2' },
+      { field1: 'G1', field2: 'G2' }
+    ]
+  },
 }
 </script>

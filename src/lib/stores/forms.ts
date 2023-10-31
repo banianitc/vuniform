@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { flatten, unflatten } from '../../util/flatten';
 
 export type FormId = string;
 
@@ -29,6 +30,7 @@ export interface FieldConfiguration {
   validators?: any;
   default?: unknown;
   list?: boolean;
+  isObject?: boolean;
 }
 
 type FormFields = {
@@ -112,9 +114,19 @@ const initalOrDefault = (initialValues: object | undefined, path: string, fallba
     return fallback;
   }
 
-  const value = path.split(SCOPE_SPARATOR).reduce((obj, key) => obj?.[key], initialValues)
+  const value = initialValues[path]
+  if (typeof value !== 'undefined') {
+    return value
+  }
+  const matcher = new RegExp(`${path}[\.\[]`);
 
-  return typeof value === "undefined" ? fallback : value
+  const matches = Object.entries(initialValues).filter(([k, v]) => matcher.exec(k) !== null)
+
+  if (matches.length === 0) {
+    return fallback;
+  }
+
+  return Object.fromEntries(matches)
 };
 
 export const useFormsStore = defineStore('vuniform', {
@@ -124,6 +136,11 @@ export const useFormsStore = defineStore('vuniform', {
   getters: {
     getFieldNames(state: FormsState): (formId: FormId) => string[] {
       return (formId) => Object.keys(state.forms[formId]?.fields || {});
+    },
+
+    // deprecated
+    getFields(state: FormsState): (formId: FormId) => string[] {
+      return (formId) => Object.keys(state.forms[formId]?.fields || {})
     },
 
     formHasErrors(state: FormsState): (formId: FormId) => boolean {
@@ -143,10 +160,6 @@ export const useFormsStore = defineStore('vuniform', {
       return (formId, field) => state.forms[formId]?.fields[field]?.errors || [];
     },
 
-    getFields(state: FormsState): (formId: FormId) => string[] {
-      return (formId) => Object.keys(state.forms[formId]?.fields || {})
-    },
-
     isFieldDirty(state: FormsState): (formId: FormId, fieldName: string) => boolean {
       return (formId, fieldName) => state.forms[formId]?.fields[fieldName]?.dirty;
     },
@@ -156,22 +169,31 @@ export const useFormsStore = defineStore('vuniform', {
         this.getFields(formId).some((fieldKey: string) => state.forms[formId].fields[fieldKey].dirty);
     },
 
-    formGetValues(state: FormsState): <T>(formId: FormId) => T {
-      return <T>(formId: FormId) =>
-        Object.entries(state.forms?.[formId]?.fields || {}).reduce(fieldToObjectReducer, {}) as T;
+    formGetValues(state: FormsState): <T>(formId: FormId, raw?: boolean) => T {
+      return <T>(formId: FormId, raw = false) => {
+        const values = Object.fromEntries(Object.entries(state.forms?.[formId]?.fields || {}).map(([k, v]) => [k, v.value]))
+        if (raw) {
+          return values as T;
+        }
+
+        return unflatten(values) as T;
+      }
     },
   },
   actions: {
     INIT_FORM({ formId, config }: InitFormPayload) {
       this.forms[formId] = {
-        config,
+        config: {
+          ...config,
+          initialValues: flatten(config.initialValues),
+        },
         fields: {},
         errors: [],
       };
     },
 
     SET_INITIAL_VALUES({ formId, values, clearDirty }: { formId: FormId; values: object, clearDirty?: boolean }) {
-      this.forms[formId].config.initialValues = values;
+      this.forms[formId].config.initialValues = flatten(values);
       if (clearDirty) {
         this.CLEAR_FORM_DIRTY(formId);
       }
@@ -189,10 +211,20 @@ export const useFormsStore = defineStore('vuniform', {
       delete this.forms[formId];
     },
 
+    INIT_FIELD_LIST({ formId, name, config}: InitFormFieldPayload) {
+      const value = initalOrDefault(this.forms[formId].config?.initialValues, name, config.default) as object;
+
+      for (const k in value) {
+        this.INIT_FORM_FIELD({formId, name: k, config})
+      }
+    },
+
     INIT_FORM_FIELD({ formId, name, config }: InitFormFieldPayload) {
+      const value = initalOrDefault(this.forms[formId].config?.initialValues, name, config.default)
+
       this.forms[formId].fields[name] = <FormField>{
         config: { ...config },
-        value: initalOrDefault(this.forms[formId].config?.initialValues, name, config.default),
+        value: value,
         dirty: false,
       };
     },
@@ -246,3 +278,33 @@ export const useFormsStore = defineStore('vuniform', {
     }
   },
 });
+
+type FormsStoreComposable = {
+  formId: string;
+  formsStore: ReturnType<typeof useFormsStore>;
+  getFieldNames: () => string[];
+  fieldHasErrors: (field: string) => boolean;
+  fieldGetValue: (field: string) => unknown;
+  fieldGetErrors: (field: string) => string[];
+  isFieldDirty: (field: string) => boolean;
+  isFormDirty: () => boolean;
+  formHasErrors: () => boolean;
+  formGetValues: <T>(raw?: boolean) => T;
+}
+
+export const useFormsStoreComposable = (formId: FormId): FormsStoreComposable => {
+  const store = useFormsStore();
+
+  return {
+    formId,
+    formsStore: store,
+    getFieldNames: (): string[] => store.getFieldNames(formId),
+    fieldHasErrors: (field: string): boolean => store.fieldHasErrors(formId, field),
+    fieldGetValue: (field: string): unknown => store.fieldGetValue(formId, field),
+    fieldGetErrors: (field: string): string[] => store.fieldGetErrors(formId, field),
+    isFieldDirty: (field: string): boolean => store.isFieldDirty(formId, field),
+    isFormDirty: (): boolean => store.isFormDirty(formId),
+    formHasErrors: (): boolean  => store.formHasErrors(formId),
+    formGetValues: <T>(raw?: boolean): T => store.formGetValues<T>(formId, raw),
+  }
+}

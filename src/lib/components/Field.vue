@@ -1,21 +1,5 @@
 <template>
-  <template
-    v-if='list'
-    v-for='(v, idx) in internalValue'
-  >
-    <slot
-      :value='v'
-      :errors='allErrors'
-      :updateModelValue='(value) => updateListModelValue(idx)(value)'
-      :uid='`${uid}-${idx}`'
-      :hasError='hasError'
-      :hasValue='hasValue'
-      :inputId='`${scopedFieldId}[${idx}]`'
-    />
-  </template>
-
   <slot
-    v-else
     :value='internalValue'
     :errors='allErrors'
     :updateModelValue='updateModelValue'
@@ -27,7 +11,7 @@
 </template>
 
 <script setup lang='ts'>
-import { computed, inject, onBeforeMount, getCurrentInstance, watch } from 'vue';
+import { computed, inject, onBeforeMount, getCurrentInstance, watch, provide } from 'vue';
 import { scopedName, useFormsStore } from '../stores/forms';
 
 const formsStore = useFormsStore()
