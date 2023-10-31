@@ -25,11 +25,13 @@ import { EmbedType as RichTextEmbedTypeEnum } from '@vp/tiptap-embed';
 
 import {
   useFormsStore,
+  useFormsStoreComposable,
   type FormRequest
 } from './stores/forms';
 
 export {
   useFormsStore,
+  useFormsStoreComposable,
   FormRequest,
 
   Form,

@@ -26,7 +26,7 @@ const scopedFieldId = computed(() => scopedName(props.name, scope));
 const formsStore = useFormsStore()
 
 const indices = computed(() => {
-  const values = Object.keys(formsStore.formGetValues(formId))
+  const values = Object.keys(formsStore.formGetValues(formId, true))
       .filter((k) => k.startsWith(`${scopedFieldId.value}[`))
       .map(k => k.replace(new RegExp(`^${scopedFieldId.value}\\[(\\d+)\].*$`), '$1'))
 
