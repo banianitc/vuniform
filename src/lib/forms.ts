@@ -1,6 +1,7 @@
 import Form from './components/Form.vue';
 import Field from './components/Field.vue';
 import FieldsFor from './components/FieldsFor.vue';
+import FieldList from './components/FieldList.vue';
 import HiddenInput from './components/HiddenInput.vue';
 import Input from './components/Input.vue';
 import Textarea from './components/Textarea.vue';
@@ -37,6 +38,7 @@ export {
   Form,
   Field,
   FieldsFor,
+  FieldList,
   HiddenInput,
   Input,
   Textarea,
