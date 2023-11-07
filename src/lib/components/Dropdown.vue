@@ -4,8 +4,21 @@
       ref='fieldRef'
       v-slot='{ uid, value, hasValue, hasError, errors, updateModelValue }'
   >
-    <slot v-bind='{ uid, options, value, displayValue, hasValue, hasError, errors, showClearButton, clearText, onChange, onClear, updateModelValue }'>
-      <Listbox @update:modelValue='onChange($event, updateModelValue)'>
+    <slot v-bind='{
+      uid,
+      options,
+      value,
+      displayValue,
+      hasValue,
+      hasError,
+      errors,
+      showClearButton,
+      clearText,
+      onChange: onChangeCb(updateModelValue),
+      onClear: onClearCb(updateModelValue),
+      updateModelValue
+    }'>
+      <Listbox @update:modelValue='onChangeCb(updateModelValue)($event)'>
         <ListboxButton
             class='vnf-dropdown-button'
             v-slot='{ open }'
@@ -15,7 +28,7 @@
               type='button'
               class='vnf-dropdown-clear-btn'
               :title='clearText'
-              @click.prevent.stop='onClear(updateModelValue)'
+              @click.prevent.stop='onClearCb(updateModelValue)($event)'
           >
             <Close />
           </button>
@@ -73,13 +86,14 @@ const props = withDefaults(defineProps<Props>(), {
   errors: () => [],
 })
 
-const onChange = (value: unknown, updateCb: (v: any) => void) => {
-  console.log('on change', updateCb)
-  // TODO: Implement multiple for real
-  const v = props.multiple ? (value && [value] || []) : value
-  emit('update:modelValue', v)
-  if (updateCb) {
-    updateCb(value);
+const onChangeCb = (updateModelValueCb: (v: any) => void) => {
+  return (value: unknown, updateCb: (v: any) => void) => {
+    // TODO: Implement multiple for real
+    const v = props.multiple ? (value && [value] || []) : value
+    emit('update:modelValue', v)
+
+    updateModelValueCb?.(v)
+    updateCb?.(v);
   }
 }
 
@@ -100,7 +114,7 @@ const hasValue = computed(() => {
 })
 const showClearButton = computed(() => props.clearable && hasValue.value)
 
-const onClear = (updateCb: (v: any) => void) => {
-  onChange(undefined, updateCb)
+const onClearCb = (updateModelValue: (v: any) => void) => (updateCb: (v: any) => void) => {
+  onChangeCb(updateModelValue)(undefined, updateCb)
 }
 </script>

@@ -2,9 +2,28 @@
   <Field
       v-bind='props'
       ref='fieldRef'
-      v-slot='{ uid, value, hasValue, hasError, errors }'
+      v-slot='{ uid, value, hasValue, hasError, errors, updateModelValue }'
   >
-    <slot v-bind='{ uid, value, inputValue, hasValue, hasError, errors, tokens, selectedTokenIdx, selectToken, removeToken, tryAddToken, selectPrevious, onInput, onLeft, onRight, onInputBlur, onDelete, onFocus }'>
+    <slot v-bind='{ uid,
+      value,
+      inputValue,
+      hasValue,
+      hasError,
+      errors,
+      tokens,
+      selectedTokenIdx,
+      selectToken,
+      removeToken,
+      tryAddToken,
+      selectPrevious,
+      onInput,
+      onLeft,
+      onRight,
+      onInputBlur,
+      onDelete,
+      onFocus,
+      updateModelValue
+    }'>
       <div
         class='vnf-token-input input-box-wrapper'
       >

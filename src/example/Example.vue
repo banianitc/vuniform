@@ -46,6 +46,7 @@
         </div>
 
         <div class='vnf-py-2'>
+          <p>Token input:</p>
           <TokenInput
               label='Token input'
               input-id='token_input'
@@ -174,6 +175,7 @@ const formValues = computed(() => JSON.stringify(formsStore.formGetValues(formId
 
 const defaults = {
   text_input_1: "I'm a default",
+  token_input: ['tok1', 'tok2'],
   customScope: {
     scoped_child: 'Default scoped child',
     deeperScope: {

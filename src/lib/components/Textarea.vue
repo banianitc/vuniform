@@ -4,7 +4,7 @@
       ref='fieldRef'
       v-slot='{ uid, value, hasValue, hasError, errors, updateModelValue }'
   >
-    <slot v-bind='{ uid, value, hasValue, hasError, errors, onInput }'>
+    <slot v-bind='{ uid, value, hasValue, hasError, errors, onInput: onInputCb(updateModelValue) }'>
       <textarea
           v-bind='$attrs'
           :id='uid'
@@ -12,7 +12,7 @@
           :value='value'
           :placeholder='placeholder'
           ref='inputRef'
-          @input='onInput($event, updateModelValue)'
+          @input='onInputCb(updateModelValue)($event)'
       />
     </slot>
   </Field>
@@ -42,12 +42,11 @@ const props = withDefaults(defineProps<Props>(), {
   placeholder: ' ',
 });
 
-const onInput = (event: any, updateCb: (v: any) => void) => {
+const onInputCb = (updateModelValue?: (v: any) => void) => (event: any, updateCb?: (v: any) => void) => {
   const value = event.target.value
   emit('update:modelValue', value);
-  if (updateCb) {
-    updateCb(value);
-  }
+  updateModelValue?.(value)
+  updateCb?.(value);
 }
 
 defineExpose({
