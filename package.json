@@ -57,5 +57,6 @@
     "vite": "^2.9.12",
     "vite-plugin-dts": "^1.4.0",
     "vue-flatpickr-component": "^9.0.6"
-  }
+  },
+  "packageManager": "yarn@4.0.1"
 }
