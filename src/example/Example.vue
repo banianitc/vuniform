@@ -22,6 +22,7 @@
         <hr>
 
         <div class='vnf-py-2'>
+          <p>Dropdown</p>
           <Dropdown
               label='Dropdown'
               input-id='dropdown'

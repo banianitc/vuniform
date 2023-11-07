@@ -4,7 +4,7 @@
       ref='fieldRef'
       v-slot='{ uid, value, hasValue, hasError, errors, updateModelValue }'
   >
-    <slot v-bind='{ uid, value, hasValue, hasError, errors, onInput }'>
+    <slot v-bind='{ uid, value, hasValue, hasError, errors, onInput, updateModelValue }'>
       <input
           v-bind='$attrs'
           :type='type'
