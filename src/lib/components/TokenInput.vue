@@ -2,6 +2,7 @@
   <Field
       v-bind='props'
       ref='fieldRef'
+      list
       v-slot='{ uid, value, hasValue, hasError, errors, updateModelValue }'
   >
     <slot v-bind='{ uid,

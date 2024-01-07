@@ -99,7 +99,8 @@
         <div>
           <p>Field list:</p>
           <FieldsFor name='nestedList'>
-            <FieldList name='fieldList'>
+            <FieldList name='fieldList' v-slot="{index, scopedName}">
+              <p>Index: {{ index }}, name: <code>{{ scopedName }}</code>.</p>
               <div class='vnf-flex'>
                 <div>
                   <p>Field 1</p>

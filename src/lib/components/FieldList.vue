@@ -3,7 +3,7 @@
     v-for='idx in indices'
     :name='`${name}[${idx}]`'
   >
-    <slot />
+    <slot :index="idx" :scopedName="`${name}[${idx}]`" />
   </FieldsFor>
 </template>
 

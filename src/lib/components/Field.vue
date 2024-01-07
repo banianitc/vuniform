@@ -1,5 +1,21 @@
 <template>
+  <template
+    v-if='list'
+  >
+    <slot
+      v-for='(v, idx) in internalValue'
+      :value='v'
+      :errors='allErrors'
+      :updateModelValue='(value) => updateListModelValue(idx)(value)'
+      :uid='`${uid}-${idx}`'
+      :hasError='hasError'
+      :hasValue='hasValue'
+      :inputId='`${scopedFieldId}[${idx}]`'
+    />
+  </template>
+
   <slot
+    v-else
     :value='internalValue'
     :errors='allErrors'
     :updateModelValue='updateModelValue'
@@ -35,7 +51,7 @@ const props = withDefaults(defineProps<Props>(), {
 const scopedFieldId = computed(() => scopedName(props.inputId, scope));
 
 onBeforeMount(() => {
-  formsStore.INIT_FORM_FIELD({formId, name: scopedFieldId.value, config: {} })
+  formsStore.INIT_FORM_FIELD({formId, name: scopedFieldId.value, config: { list: props.list } })
 })
 
 const internalValue = computed(() => props.overrideValue || formsStore.fieldGetValue(formId, scopedFieldId.value))
@@ -49,7 +65,7 @@ const updateModelValue = (value: any) => {
   formsStore.STAGE_FIELD_CHANGE({value, query: {formId, field: scopedFieldId.value}})
 }
 
-const updateListModelValue = (idx: number) => (value: any) => {
+const updateListModelValue = (idx: string | number) => (value: any) => {
   formsStore.STAGE_FIELD_CHANGE({value, query: {formId, field: scopedFieldId.value, index: idx}})
 }
 
