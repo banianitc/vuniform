@@ -771,12 +771,12 @@ __metadata:
   linkType: hard
 
 "@vp/tiptap-embed@git+https://gitlab.com/venuepilot-ng/tiptap-embeds.git":
-  version: 1.0.0
-  resolution: "@vp/tiptap-embed@https://gitlab.com/venuepilot-ng/tiptap-embeds.git#commit=ad3dc31289cd639dc4e488d0dc2f4b2900f9acd2"
+  version: 1.1.0
+  resolution: "@vp/tiptap-embed@https://gitlab.com/venuepilot-ng/tiptap-embeds.git#commit=bfff1c6407fec8176ee590fe6390ecab6059428b"
   peerDependencies:
     "@tiptap/core": ^2.0.0-beta.220
     "@tiptap/pm": ^2.0.0-beta.220
-  checksum: ae9bf1acb1b8599fdd93f027a1342186baff28d135adf70c275b1436fe169a918ec3ec0110d5c16c0503cbca71de18a50efccd7179403a2a03fcb000bae341f4
+  checksum: a7de55d3afbefe3e9d764c610c8f7b9dd61835bb827c9661f9a71638863cdffefb7aabe388b7edbfa1a244a95a25b17eebd655b50ad921087b0a09558281f72a
   languageName: node
   linkType: hard
 
